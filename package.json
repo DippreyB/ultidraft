@@ -1,0 +1,33 @@
+{
+  "name": "ultidraft",
+  "version": "1.0.0",
+  "description": "Ultimate league drafting application.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DippreyB/ultidraft.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DippreyB/ultidraft/issues"
+  },
+  "homepage": "https://github.com/DippreyB/ultidraft#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "nodeman": "^1.1.2"
+  }
+}
