@@ -6,14 +6,10 @@ const teamSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    captain1: {
+    captains: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Player'
-    },
-    captain2: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player'
-    },
+    }],
     color: {
         type: String,
     },

@@ -5,13 +5,6 @@ const leagueSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    players: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'Player',
-        }
-    ],
     teams: [
         {
             type: mongoose.Schema.Types.ObjectId,

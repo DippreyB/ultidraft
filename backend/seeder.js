@@ -31,6 +31,12 @@ const importData = async () => {
             return team._id
         })
 
+        //add team ids to League doc
+        const leagueWithTeams = await League.findByIdAndUpdate(leagueId,
+            {$push: {teams: teamIds}},
+            {upsert: true}
+        )
+
         //Add leagueId to all players
         const updatedPlayers = players.map(player => {
             return {...player, league: leagueId}
@@ -42,25 +48,25 @@ const importData = async () => {
             return player._id
         })
 
-        //add team ids to League doc
-        const leagueWithTeams = await League.findByIdAndUpdate(leagueId,
-            {$push: {teams: teamIds}},
-            {upsert: true}
-        )
+        //add players and captains to team
+        await Promise.all( teamIds.map( async (teamId, index) => {
+            const team = await Team.findById(teamId)
+            if(team){
+                team.roster = [...team.roster, playerIds[index]]
+                team.captains = [...team.captains, playerIds[index]]
+            }
+            const updatedTeam = await team.save()
+        }))
 
-        const leagueWithPlayers = await League.findByIdAndUpdate(
-            leagueId,
-            {$push: {players: playerIds}}, {upsert: true}
-        )
-        
-        //add teams to each player
-        console.log(leagueWithPlayers)
+        await Promise.all(playerIds.map(async (playerId, index)=> {
+            const player = await Player.findById(playerId)
+            if(player.isCaptain){
+                player.team = teamIds[index]
+            }
 
-        //add player to each roster
-        
+            await player.save()
+        }))
 
-
-        
 
         console.log('Data Imported'.green.inverse)
         process.exit() 
