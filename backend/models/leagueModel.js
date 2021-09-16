@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Player from './playerModel.js'
 
 const leagueSchema = mongoose.Schema({
     leagueName: {
@@ -11,7 +12,8 @@ const leagueSchema = mongoose.Schema({
             required: true,
             ref: 'Team'
         }
-    ]
+    ],
+
 })
 
 const League = mongoose.model('League', leagueSchema)

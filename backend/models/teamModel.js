@@ -6,10 +6,6 @@ const teamSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    captains: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player'
-    }],
     color: {
         type: String,
     },

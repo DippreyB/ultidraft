@@ -53,7 +53,6 @@ const importData = async () => {
             const team = await Team.findById(teamId)
             if(team){
                 team.roster = [...team.roster, playerIds[index]]
-                team.captains = [...team.captains, playerIds[index]]
             }
             const updatedTeam = await team.save()
         }))
