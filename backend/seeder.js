@@ -8,6 +8,9 @@ import Team from './models/teamModel.js'
 import teams from './data/teams.js'
 import players from './data/players.js'
 import Player from './models/playerModel.js'
+import User from './models/userModel.js'
+import users from './data/users.js'
+
 
 dotenv.config()
 
@@ -18,6 +21,7 @@ const importData = async () => {
         await League.deleteMany()
         await Team.deleteMany()
         await Player.deleteMany()
+        await User.deleteMany()
 
         //Create League document
         const createdLeague = await League.insertMany(leagues)
@@ -65,6 +69,13 @@ const importData = async () => {
 
             await player.save()
         }))
+
+        //Add users
+        const updatedUsers = users.map(user => {
+            return {...user, leagues: leagueId}
+        })
+
+        await User.insertMany(updatedUsers)
 
 
         console.log('Data Imported'.green.inverse)
