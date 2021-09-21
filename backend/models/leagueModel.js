@@ -13,8 +13,13 @@ const leagueSchema = mongoose.Schema({
             ref: 'Team'
         }
     ],
+    signUpCode: {
+        type: String,
+        required: true
+    }
 
 })
+
 
 const League = mongoose.model('League', leagueSchema)
 

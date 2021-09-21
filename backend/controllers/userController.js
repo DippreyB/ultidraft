@@ -1,6 +1,8 @@
 import User from '../models/userModel.js'
+import League from '../models/leagueModel.js'
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
+
 
 //@desc     get all users
 //@route    GET /api/users
@@ -108,5 +110,83 @@ const updateUserProfile = asyncHandler(async (req,res) => {
 })
 
 
+//@desc     Admin update user data.
+//@route    PUT /api/users/:id
+//@access   private/admin
+const updateUserById = asyncHandler( async (req, res) => {
+    
+    const user = await User.findById(req.params.id)
 
-export {getAllUsers, getUserById, authenticateUser, getLoggedInUser, updateUserProfile}
+    if(user){
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.isAdmin = Boolean(req.body.isAdmin) === true ? true : false
+        user.isCaptain = Boolean(req.body.isCaptain) === true ? true : false
+        user.leagues = req.body.leagues || user.leagues
+
+        const updatedUser = await user.save()
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            isCaptain: updatedUser.isCaptain,
+            leagues: updatedUser.leagues,
+        })
+    }else{
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+//@desc     Register a new user.
+//@route    POST /api/users
+//@access   public
+const registerUser = asyncHandler( async (req, res) => {
+    const league = await League.findOne({signUpCode: req.body.signUpCode})
+    
+    const userExists = await User.findOne({email: req.body.email})
+    if(userExists){
+        res.status(400)
+        throw new Error('Email address registered to an account. Use another email.')
+    }
+    const newUser = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        isAdmin: false,
+        isCaptain: false,
+        leagues: [league]
+
+    }
+    const createdUser = await User.create(newUser)
+    res.json(createdUser)
+})
+
+//@desc     Delete user by ID
+//@route    DELETE /api/users/:id
+//@access   private/admin
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id)
+    if(user){
+        const deletedUser = await user.remove()
+        res.json({message: `User Removed: ${deletedUser._id}` })
+    }else{
+        res.status(404)
+        throw new Error('User not found')
+
+    }
+})
+
+
+
+export {
+    getAllUsers, 
+    getUserById, 
+    authenticateUser, 
+    getLoggedInUser, 
+    updateUserProfile,
+    updateUserById,
+    registerUser,
+    deleteUser
+}
