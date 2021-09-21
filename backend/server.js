@@ -4,6 +4,7 @@ import colors from 'colors'
 import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import leagueRoutes from './routes/leagueRoutes.js'
+import teamRoutes from './routes/teamRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/leagues', leagueRoutes)
+app.use('/api/teams', teamRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
