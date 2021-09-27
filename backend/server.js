@@ -5,6 +5,7 @@ import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import leagueRoutes from './routes/leagueRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
+import playerRoutes from './routes/playerRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -21,6 +22,8 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes)
 app.use('/api/leagues', leagueRoutes)
 app.use('/api/teams', teamRoutes)
+app.use('/api/players', playerRoutes)
+
 
 app.use(notFound)
 app.use(errorHandler)

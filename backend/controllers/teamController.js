@@ -66,10 +66,56 @@ const updateTeamById = asyncHandler(async (req,res) => {
     
 })
 
+//@desc     Delete team by id
+//@route    DELETE /api/teams/:id
+//@access   private admin
+const deleteTeam = asyncHandler(async (req,res) =>{
+    const team = await Team.findById(req.params.id)
+    if(team){
+        const removedTeam = await team.remove()
+        res.json(removedTeam)
+    }else{
+        res.status(404)
+        throw new Error('Team not found, unable to delete.')
+    }
+})
+
+//@desc     Add player to team
+//@route    PUT /api/teams/addPlayer/:id
+//@access   private/admin 
+const addPlayerToTeam = asyncHandler(async (req,res) =>{
+    const team  = await Team.findById(req.params.id)
+    if(team){
+        team.roster.push(req.body.playerId)
+        const updatedTeam = await team.save()
+        res.json(updatedTeam)
+    } else{
+        res.status(404)
+        throw new Error('Team not found, unable to add player.')
+    }
+})
+
+//@desc     Remove player from team
+//@route    PUT /api/teams/removePlayer/:id
+//@access   private/admin 
+const removePlayerFromTeam = asyncHandler(async (req,res) => {
+    const team = await Team.findById(req.params.id)
+    if(team){
+        team.roster = team.roster.filter(playerId => playerId != req.body.playerId)
+        const updatedTeam = await team.save()
+        res.json(updatedTeam)
+    }else{
+        res.status(404)
+        throw new Error('Team not found, unable to remove player.')
+    }
+})
 
 export {
     getAllTeams,
     getTeamById,
     createTeam,
     updateTeamById,
+    deleteTeam,
+    addPlayerToTeam,
+    removePlayerFromTeam
 }
