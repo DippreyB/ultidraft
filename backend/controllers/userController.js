@@ -2,6 +2,7 @@ import User from '../models/userModel.js'
 import League from '../models/leagueModel.js'
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
+import { OAuth2Client } from 'google-auth-library'
 
 
 //@desc     get all users
@@ -39,9 +40,10 @@ const getUserById = asyncHandler( async (req,res) => {
 //@route    POST /api/users/login
 //@access   public
 const authenticateUser = asyncHandler(async (req,res) =>{
+    
     const {email, password} = req.body
+    
     const user = await User.findOne({email})
-
     if(user && await user.matchPassword(password)){
         res.json({
             _id: user._id,
@@ -178,6 +180,49 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 })
 
+//@desc     Authenticate google user
+//@route    POST /api/users/googleLogin
+//@access   public
+const authGoogleUser = asyncHandler(async (req, res) => {
+    const client = new OAuth2Client(process.env.GOOGLE_AUTH_CLIENT_ID)
+    const ticket = await client.verifyIdToken({
+        idToken: req.body.tokenId,
+        audience: process.env.GOOGLE_AUTH_CLIENT_ID
+    })
+
+    const {email, email_verified, name, picture} = ticket.getPayload();
+
+    const user = await User.findOne({email})
+    if(!user){
+        console.log('User not in database, creating new user.')
+        const newUser = {
+            name: name,
+            email: email,
+            isAdmin: false,
+            isCaptain: false,
+            leagues: [],
+        }
+        try{
+            const createdUser = await User.create(newUser)
+            res.json(createdUser)
+        }catch(error){
+            throw new Error(error)
+        }
+       
+    }else{
+        console.log('User found in database, logged in.')
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            isCaptain: user.isCaptain,
+            leagues: user.leagues,
+            token: generateToken(user._id),
+        })
+    }
+})
+
 
 
 export {
@@ -188,5 +233,6 @@ export {
     updateUserProfile,
     updateUserById,
     registerUser,
-    deleteUser
+    deleteUser,
+    authGoogleUser
 }

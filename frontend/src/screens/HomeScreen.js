@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
+import { LoginCard } from '../components/LoginCard'
+
 
 const HomeScreen = () => {
     return (
@@ -9,14 +11,7 @@ const HomeScreen = () => {
                     <h1>Welcome to UltiDraft</h1>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et obcaecati harum tenetur tempore facere, voluptates, dolorum sequi corrupti quis dolorem possimus quo iure inventore, quas esse incidunt sed sint magnam!
                 </Col>
-                <Col md={6} className='my-2'>
-                    <Card className='text-center rounded'>
-                        <Card.Body>
-                        <Card.Title>Log In with Google</Card.Title>
-                        <Button variant='primary'>Goog btn</Button>
-                        </Card.Body>
-                    </Card>
-                </Col>
+                <LoginCard />
             </Row>
         </Container>
     )

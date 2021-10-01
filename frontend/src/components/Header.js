@@ -1,8 +1,12 @@
 import React from 'react'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Navbar, Nav, Container ,NavDropdown} from 'react-bootstrap'
+import {useSelector} from 'react-redux'
+import { selectLoggedInUser } from '../slices/loggedInUserSlice'
 
 const Header = () => {
+    const {loggedInUser} = useSelector(selectLoggedInUser)
+    
     return (
         <header>
             <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect >
@@ -14,18 +18,19 @@ const Header = () => {
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ms-auto'>
                             <LinkContainer to='/'>
-                                <Nav.Link>Link 1</Nav.Link>
+                                <Nav.Link>Dashboard</Nav.Link>
                             </LinkContainer>
 
-                            {/* Dropdown for logged in user. */}
-                            <NavDropdown title='dropdown'>
+                            {loggedInUser.name &&
+                            <NavDropdown title={loggedInUser.name}>
                                 <LinkContainer to='/'>
-                                    <NavDropdown.Item>Drop 1</NavDropdown.Item>
+                                    <NavDropdown.Item>Profile</NavDropdown.Item>
                                 </LinkContainer>
                                 <LinkContainer to='/'>
-                                    <NavDropdown.Item>Drop 2</NavDropdown.Item>
+                                    <NavDropdown.Item>Logout</NavDropdown.Item>
                                 </LinkContainer>
                             </NavDropdown>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

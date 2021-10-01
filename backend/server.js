@@ -7,6 +7,8 @@ import leagueRoutes from './routes/leagueRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
 import playerRoutes from './routes/playerRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
+import cors from 'cors'
+
 
 dotenv.config()
 
@@ -14,6 +16,7 @@ connectDB()
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
     res.send('API RUNNING THIS SHIT')
