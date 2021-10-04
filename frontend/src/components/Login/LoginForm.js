@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Col, Button } from 'react-bootstrap'
-import { logInUser } from '../slices/loggedInUserSlice'
+import { logInUser } from '../../slices/loggedInUserSlice'
 
 const LoginForm = () => {
     const [password,setPassword] = useState('')

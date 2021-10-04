@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
-import bcrypt from 'bcryptjs'
+
+
+const loggedInUserFromStorage = localStorage.getItem('loggedInUser') ? JSON.parse(localStorage.getItem('loggedInUser')) : null
 
 const initialState = {
-    loggedInUser: {},
-    status: 'idle',
+    loggedInUser: loggedInUserFromStorage,
     error: null
 };
 
@@ -18,37 +19,51 @@ export const logInGoogleUser = createAsyncThunk('loggedInUser/googleLogIn', asyn
     return res.data
 })
 
-export const logInUser = createAsyncThunk('loggedInUser/login', async (data) =>{
-    //const {email, password} = data
-    const config = {
-        headers:{
-            'Content-Type': 'application/json'
+export const logInUser = createAsyncThunk('loggedInUser/login', async (data, {rejectWithValue}) =>{
+    try{
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
         }
+        const res = await axios.post('/api/users/login', data,  config)
+        return res.data
+    }catch(error){
+        return rejectWithValue(error.response.data.message)
     }
-    //const hashedPassword = await bcrypt.hashSync(password, 10)
-    //const userData = {email: email, password: hashedPassword}
-    const res = await axios.post('/api/users/login', data,  config)
-    return res.data
 })
+
 
 export const loggedInUserSlice = createSlice({
     name: 'loggedInUser',
     initialState,
     reducers: {
+        logout: state => {
+            state.loggedInUser = null
+            state.error = null
+            localStorage.removeItem('loggedInUser')
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(logInGoogleUser.fulfilled, (state,action) => {
             state.loggedInUser = action.payload
+            state.error = null
+            localStorage.setItem('loggedInUser', JSON.stringify(state.loggedInUser))
         })
         .addCase(logInUser.fulfilled, (state,action) => {
             state.loggedInUser = action.payload
+            state.error = null
+            localStorage.setItem('loggedInUser', JSON.stringify(state.loggedInUser))
+        })
+        .addCase(logInUser.rejected, (state, action)=>{ 
+            state.loggedInUser = null
+            state.error = action.payload
         })
     }
 })
 
+
+
 export const selectLoggedInUser = state => state.loggedInUser
-
-
-
-export const {updateLoggedInUser, clearLoggedInUser} = loggedInUserSlice.actions
+export const {logout} = loggedInUserSlice.actions
 export default loggedInUserSlice.reducer

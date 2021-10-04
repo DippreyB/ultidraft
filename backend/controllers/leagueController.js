@@ -36,6 +36,12 @@ const getLeaguebyId = asyncHandler(async (req,res) =>{
     }
 })
 
+const getLeaguesForUser = asyncHandler(async (req,res) => {
+    const leagueIds = req.user.leagues
+    const leagues = await League.find({'_id': {$in: leagueIds}})
+    res.json(leagues)
+})
+
 
 //@desc     Create a new league document
 //@route    POST/api/leagues 
@@ -130,5 +136,6 @@ export {
     deleteLeagueById, 
     updateLeagueById,
     addTeamToLeague,
-    removeTeamFromLeague
+    removeTeamFromLeague,
+    getLeaguesForUser
 }
