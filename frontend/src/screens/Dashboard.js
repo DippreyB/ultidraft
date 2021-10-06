@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
+
+import LeaguesOffscreen from '../components/Dashboard/LeaguesOffscreen'
+
 
 const Dashboard = () => {
-    //show offscreen with leagues - button to show offscreen and reselect league.
-    //When league is selected, display teams & players for league.
-    //Modals for team/player info when selected? Might be best on mobile.
-    //section of screen to display player/team info on larger screens
-    //filters for players M/F, C/H, Height, Age, W/E
+    const [selectedLeague, setSelectedLeague] = useState();
+    const leagueSelectHandler = (league) => { 
+        setSelectedLeague(league)
+    }
     return (
-        <div>
-            
-        </div>
+        <>
+        <LeaguesOffscreen leagueSelectHandler={leagueSelectHandler}/>
+
+        <Container>
+            <Row>
+                <Col md={8}> 
+                    Col1
+                </Col>
+                <Col md={4}  className='d-none d-sm-block'>
+                    Col2
+                    {selectedLeague}
+                </Col>
+            </Row>
+        </Container>
+        </>
     )
 }
 
