@@ -16,11 +16,11 @@ const LeaguesOffscreen = ({leagueSelectHandler}) => {
     }
     useEffect(()=>{
         dispatch(getUserLeagues())
-    })
+    },[showOffCanvas])
 
     return (
         <>
-        <Button variant='outline-light' style={{position: 'absolute', top: 5, left: 5,}} onClick={()=>setShowOffCanvas(true)}>Leagues</Button>
+        <Button variant='outline-primary'  onClick={()=>setShowOffCanvas(true)}>Select League</Button>
         <Offcanvas show={showOffCanvas} onHide={()=>setShowOffCanvas(false)}>
             <Offcanvas.Header closeButton closeVariant='white' closeLabel='Close league select.'>
                <h3>Your Leagues</h3>
@@ -29,7 +29,7 @@ const LeaguesOffscreen = ({leagueSelectHandler}) => {
                 <ListGroup>
                 {userLeagues.map(league => {
                     return (
-                        <ListGroup.Item onClick={()=>{offScreenSelectHandler(league._id)}} action key={league._id}>
+                        <ListGroup.Item onClick={()=>{offScreenSelectHandler(league)}} action key={league._id}>
                             <Row>
                                 <Col><h4>{league.leagueName}</h4></Col>
                             </Row>
