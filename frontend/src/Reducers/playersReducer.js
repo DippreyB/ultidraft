@@ -1,27 +1,33 @@
-const playersReducer = (state, action) => { 
+export const GET_LEAGUE_PLAYERS_REQUEST = 'GET_LEAGUE_PLAYERS_REQUEST'
+export const GET_LEAGUE_PLAYERS_SUCCESS = 'GET_LEAGUE_PLAYERS_SUCCESS'
+export const GET_LEAGUE_PLAYERS_FAILURE = 'GET_LEAGUE_PLAYERS_FAILURE'
+
+
+
+const leaguePlayersReducer = (state, action) => { 
     switch(action.type) {
-        case 'PLAYERS_API_REQUEST':
+        case GET_LEAGUE_PLAYERS_REQUEST:
             return {
                 ...state,
                 players: [],
                 status: 'pending'
             }
-        case 'PLAYERS_API_SUCCESS':
+        case GET_LEAGUE_PLAYERS_SUCCESS:
             
             return {
                 ...state,
                 players: action.payload,
-                status: 'success'
+                status: 'fulfilled'
             }
-        case 'PLAYERS_API_FAILURE':
+        case GET_LEAGUE_PLAYERS_FAILURE:
             return {
                 ...state,
                 error: action.payload,
-                status: 'failure'
+                status: 'rejected'
             }
         default:
             return state;
     }
 }
 
-export default playersReducer
+export default leaguePlayersReducer

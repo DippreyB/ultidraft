@@ -6,7 +6,7 @@ import { getUserLeagues, selectLeagues } from '../../slices/leaguesSlice'
 
 
 const LeaguesOffscreen = ({leagueSelectHandler}) => {
-    const [showOffCanvas, setShowOffCanvas] = useState(true)
+    const [showOffCanvas, setShowOffCanvas] = useState(false)
     const {userLeagues} = useSelector(selectLeagues)
     const dispatch = useDispatch()
 
@@ -16,7 +16,7 @@ const LeaguesOffscreen = ({leagueSelectHandler}) => {
     }
     useEffect(()=>{
         dispatch(getUserLeagues())
-    },[showOffCanvas])
+    },[showOffCanvas, dispatch])
 
     return (
         <>

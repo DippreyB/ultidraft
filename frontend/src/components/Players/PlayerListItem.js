@@ -7,11 +7,12 @@ const ratingColors = [
     {color:"#0A9396"},
     {color:"#005F73"}
 ]
-
-const PlayerListItem = ({playerName, age, genderMatchup, selfRating, role, team, _id}) => {
-    
+//Need to refactor - This component should be display only. Move state logic to another component.
+//should be passed a list of player
+const PlayerListItem = ({player, playerDetailsSelectHandler}) => {
+    const {playerName, age, genderMatchup, selfRating, role} = player
     return (
-        <ListGroup.Item action>
+        <ListGroup.Item action onClick={()=> playerDetailsSelectHandler(player)}>
             <Row>
                 <Col><strong>{playerName}</strong></Col>
                 <Col className='d-flex justify-content-end text-muted'>

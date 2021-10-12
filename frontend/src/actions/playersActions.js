@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { GET_LEAGUE_PLAYERS_FAILURE, GET_LEAGUE_PLAYERS_SUCCESS } from '../Reducers/playersReducer'
 
 export const getPlayersFromApi = async (leagueId, loggedInUser) => {
     try{
@@ -11,9 +12,9 @@ export const getPlayersFromApi = async (leagueId, loggedInUser) => {
         }
         const {data} = await axios.get(`/api/players/league/${leagueId}`,config)
         
-        return {type: 'PLAYERS_API_SUCCESS', payload: data}
+        return {type: GET_LEAGUE_PLAYERS_SUCCESS, payload: data}
     }catch (error){
-        return {type: 'PLAYERS_API_FAILURE', payload: error}
+        return {type: GET_LEAGUE_PLAYERS_FAILURE, payload: error}
     }
     
 }

@@ -28,6 +28,19 @@ const getTeamById = asyncHandler(async (req, res) =>{
     }
 })
 
+//@desc     Get teams by league id
+//@route    GET /api/teams/league/:leagueId
+//@access   protected
+const getTeamsByLeagueId = asyncHandler(async (req,res)=> {
+    const teams = await Team.find({league: req.params.leagueId})
+    if(teams){
+        res.json(teams)
+    }else{
+        res.status(404)
+        throw new Error(`Unable to find teams for league Id: ${req.params.leagueId} `)
+    }
+})
+
 //@desc     Create a team, and return created team in json. 
 //          Front end makes call to add team to league
 //@route    POST /api/teams
@@ -117,5 +130,6 @@ export {
     updateTeamById,
     deleteTeam,
     addPlayerToTeam,
-    removePlayerFromTeam
+    removePlayerFromTeam,
+    getTeamsByLeagueId
 }
