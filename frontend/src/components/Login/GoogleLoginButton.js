@@ -11,7 +11,6 @@ export const GoogleLoginButton = () => {
     const handleLogin = async (data) =>{
         dispatch(logInGoogleUser(data))
     }
-    
     return (
         
         <GoogleLogin
@@ -21,7 +20,6 @@ export const GoogleLoginButton = () => {
             onFailure = {handleLogin}
             uxMode={'popup'}
             cookiePolicy = {`single_host_origin`}
-           
         />
     )
 }

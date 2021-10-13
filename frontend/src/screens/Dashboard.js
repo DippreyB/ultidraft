@@ -41,17 +41,17 @@ const Dashboard = () => {
             </Row>
             <Row>
                 <Col md={4}> 
-                    <Tabs>
+                    <Tabs >
                         <Tab eventKey='players' title='Players'>
                             {leaguePlayers.status === 'fulfilled' && <PlayerList players={leaguePlayers.players} playerDetailsSelectHandler={playerDetailsSelectHandler}/> } 
                         </Tab>
-                        <Tab eventKey='teams' title='Teams'>
+                        <Tab eventKey='teams' title='Teams' >
                             {selectedLeague && <TeamsList leagueId={selectedLeague._id} />}
                         </Tab>
                     </Tabs>
                 </Col>
                 <Col md={8}  className='d-none d-sm-block'>
-                    {detailsObject && <DetailsPanel detailsObject={detailsObject}/> }              
+                    {detailsObject && <DetailsPanel detailsObject={detailsObject} setDetailsObject={setDetailsObject}/> }              
                 </Col>
             </Row>
         </Container>
