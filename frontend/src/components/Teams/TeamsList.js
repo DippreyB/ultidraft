@@ -15,13 +15,7 @@ const TeamsList = ({leagueId}) => {
     const {teams, status, error} = teamsState
 
     useEffect(()=>{
-        dispatch({type: GET_TEAMS_BY_LEAGUE_REQUEST})
-        const fetchTeams = async ()=>{
-            const teamAction = await getTeamsByLeagueId(leagueId, loggedInUser)
-            dispatch(teamAction)
-        }
-
-        fetchTeams()
+        
     },[leagueId, loggedInUser])
 
     

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import DetailsPanel from '../components/Dashboard/DetailsPanel';
 
 import LeaguesOffscreen from '../components/Dashboard/LeaguesOffscreen'
 import PlayerList from '../components/Players/PlayerList';
 import TeamsList from '../components/Teams/TeamsList';
 import useLeaguePlayers from '../hooks/useLeaguePlayers';
+import useLeagueTeams from '../hooks/useLeagueTeams';
+import { getActiveLeague, selectActiveLeague } from '../slices/leaguesSlice';
 
 
 const Dashboard = () => {
@@ -14,22 +17,35 @@ const Dashboard = () => {
     const leagueSelectHandler = (league) => { 
         setSelectedLeague(league)
     }
+
+    const {activeLeaguePlayers,activeLeagueTeams} = useSelector(selectActiveLeague)
     
-    const [detailsObject, setDetailsObject] = useState()
+    const dispatch = useDispatch()
 
-    const playerDetailsSelectHandler = (player) => {
-        setDetailsObject({...player, detailsType: 'player'})
-    }
+    
+    // const [detailsObject, setDetailsObject] = useState()
 
-    const {leaguePlayers, setLeagueId} = useLeaguePlayers()
+    // const playerDetailsSelectHandler = (player) => {
+    //     setDetailsObject({...player, detailsType: 'player'})
+    // }
+
+    // const {leaguePlayers, setLeagueId} = useLeaguePlayers()
+    // //const {leagueTeams, setLeagueId} = useLeagueTeams()
+
+    // const teamDetailsSelectHandler = (team) => {
+    //     setDetailsObject({...team, detailsType: 'team'})
+    // }
 
     useEffect(()=>{
-        if(selectedLeague)
-            setLeagueId(selectedLeague._id)
-    },[selectedLeague])
+        
+        if(selectedLeague){
+            dispatch(getActiveLeague({leagueId: selectedLeague._id}))
+        }
+    },[selectedLeague, dispatch])
 
     return (
         <>
+        {console.log(activeLeaguePlayers)}
         <Container>
             <Row className='align-items-center'>
                 <Col xs={'auto'}>
@@ -43,7 +59,7 @@ const Dashboard = () => {
                 <Col md={4}> 
                     <Tabs >
                         <Tab eventKey='players' title='Players'>
-                            {leaguePlayers.status === 'fulfilled' && <PlayerList players={leaguePlayers.players} playerDetailsSelectHandler={playerDetailsSelectHandler}/> } 
+                            {/* {leaguePlayers.status === 'fulfilled' && <PlayerList players={leaguePlayers.players} playerDetailsSelectHandler={playerDetailsSelectHandler}/> }  */}
                         </Tab>
                         <Tab eventKey='teams' title='Teams' >
                             {selectedLeague && <TeamsList leagueId={selectedLeague._id} />}
@@ -51,7 +67,7 @@ const Dashboard = () => {
                     </Tabs>
                 </Col>
                 <Col md={8}  className='d-none d-sm-block'>
-                    {detailsObject && <DetailsPanel detailsObject={detailsObject} setDetailsObject={setDetailsObject}/> }              
+                    {/* {detailsObject && <DetailsPanel detailsObject={detailsObject} setDetailsObject={setDetailsObject}/> }               */}
                 </Col>
             </Row>
         </Container>

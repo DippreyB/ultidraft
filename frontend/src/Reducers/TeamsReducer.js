@@ -2,7 +2,7 @@ export const GET_TEAMS_BY_LEAGUE_REQUEST = 'GET_TEAMS_BY_LEAGUE_REQUEST';
 export const GET_TEAMS_BY_LEAGUE_SUCCESS = 'GET_TEAMS_BY_LEAGUE_SUCCESS';
 export const GET_TEAMS_BY_LEAGUE_FAILURE = 'GET_TEAMS_BY_LEAGUE_FAILURE';
 
-const teamsReducer = (state, action) => {
+const getTeamsByLeagueReducer = (state, action) => {
     switch(action.type) {
         case GET_TEAMS_BY_LEAGUE_REQUEST:
             return {
@@ -23,4 +23,4 @@ const teamsReducer = (state, action) => {
     }
 }
 
-export default teamsReducer
+export default getTeamsByLeagueReducer
