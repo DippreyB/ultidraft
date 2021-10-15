@@ -1,24 +1,25 @@
-import React, { useEffect, useReducer } from 'react'
-import { getPlayersFromApi } from '../../actions/playersActions'
-import leaguePlayersReducer from '../../Reducers/playersReducer'
-import { useSelector } from 'react-redux'
-import { selectLoggedInUser } from '../../slices/loggedInUserSlice'
-import { ListGroup, Spinner } from 'react-bootstrap'
+import React from 'react'
+import { ListGroup } from 'react-bootstrap'
 import PlayerListItem from './PlayerListItem'
-import Message from '../Message'
 
 
-const PlayerList = ({players, playerDetailsSelectHandler}) => {
+
+const PlayerList = ({players, playerDetailsSelectHandler, action, variant}) => {
 
 
     return (
         <>
-        <ListGroup >
+        <ListGroup variant={variant}>
             {players && 
                 players.map(player => { 
                     
                     return (
-                        <PlayerListItem key={player._id} player={player} playerDetailsSelectHandler={playerDetailsSelectHandler}>
+                        <PlayerListItem key={player._id} 
+                            player={player} 
+                            playerDetailsSelectHandler={playerDetailsSelectHandler}
+                            action={action}
+                            
+                        >
 
                         </PlayerListItem>
                     )

@@ -11,7 +11,7 @@ const PlayerDetails = ({detailsObject}) => {
 
         
         <Card.Body>
-            <Row className='d-flex'>
+            <Row>
                 <Col >
                     <ListGroup variant='flush'>
                         <ListGroup.Item><h5>Stats</h5></ListGroup.Item>

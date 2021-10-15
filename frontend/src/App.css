@@ -31,11 +31,49 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.red-team { 
+  background-color: #cf1d29;
+  color: #FFFFFF
 }
+
+.orange-team {
+  background-color: #D86B2B;
+  color: #FFFFFF
+}
+
+.yellow-team {
+  background-color: #D9A82B;
+  color: #282c34
+}
+
+.green-team {
+  background-color: #167B1D;
+  color: #FFFFFF
+}
+
+.blue-team {
+  background-color: #172A76;
+  color: #FFFFFF
+}
+
+.purple-team {
+  background-color: #591E97;
+  color: #FFFFFF;
+}
+
+.pink-team {
+  background-color: #ED91CD;
+  color: #282c34
+}
+
+.black-team {
+  background-color: #282c34;
+  color: #FFFFFF;
+}
+
+.white-team {
+  background-color: #FFFFFF;
+  color: black;
+}
+
+
