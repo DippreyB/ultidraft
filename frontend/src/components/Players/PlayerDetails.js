@@ -1,7 +1,16 @@
 import React from 'react'
 import { Col, Row, Card, ListGroup } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { selectActiveLeague } from '../../slices/leaguesSlice'
 
 const PlayerDetails = ({detailsObject}) => {
+
+    const {activeLeagueTeams} = useSelector(selectActiveLeague)
+    
+    const playerTeam = activeLeagueTeams.filter(team => {
+        return team._id === detailsObject.team
+    })
+    
     return (
         <>
         <Card.Header className='d-flex align-items-center justify-content-between'>
@@ -29,7 +38,7 @@ const PlayerDetails = ({detailsObject}) => {
                     <DetailsListGroupItem title={'Position'} value={detailsObject.role} />
                     <DetailsListGroupItem title={'Experience'} value={detailsObject.experience} />
                     <DetailsListGroupItem title={'Comments'} value={detailsObject.comments} />
-                    <DetailsListGroupItem title={'Team'} value={detailsObject.team} />
+                    <DetailsListGroupItem title={'Team'} value={playerTeam[0] ? playerTeam[0].teamName : 'Free Agent'} />
                     </ListGroup>
                 </Col>
             </Row>

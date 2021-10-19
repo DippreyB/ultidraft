@@ -1,22 +1,23 @@
 import React from 'react'
-import { Col, Row, Card, ListGroup } from 'react-bootstrap'
+import { Col, Row, Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { selectActiveLeague } from '../../slices/leaguesSlice'
 import PlayerList from '../Players/PlayerList'
 
 const TeamDetails = ({detailsObject}) => {
-    const {teamName, color, roster, _id: teamId}  = detailsObject
+    const {teamName, _id: teamId}  = detailsObject
     const {activeLeaguePlayers} = useSelector(selectActiveLeague)
-
-    const teamCaptains = activeLeaguePlayers.filter(player => {
-        return player.team == teamId && player.isCaptain
+    
+    let teamCaptains = activeLeaguePlayers.filter(player => {
+        return player.team === teamId && player.isCaptain
+    })
+    
+    let womenPlayers = activeLeaguePlayers.filter(player => {
+        return player.team === teamId && player.genderMatchup === 'female'
     })
 
-    const womenPlayers = activeLeaguePlayers.filter(player => {
-        return player.team == teamId && player.genderMatchup === 'female'
-    })
-    const menPlayers = activeLeaguePlayers.filter(player => {
-        return player.team == teamId && player.genderMatchup === 'male'
+    let menPlayers = activeLeaguePlayers.filter(player => {
+        return player.team === teamId && player.genderMatchup === 'male'
     })
 
     return (
@@ -30,16 +31,17 @@ const TeamDetails = ({detailsObject}) => {
             <Row>
                 <Col>
                         <h5>Captains</h5>
-                        <PlayerList players={teamCaptains} action={false} variant={'flush'}/>
+                        <PlayerList players={teamCaptains} action={false} variant={'flush'} paginated={false}/>
                 </Col>    
             </Row>
             <Row>
+                <h5>Roster</h5>
                 <Col className='col-12 col-md-6 mb-2'>
                     <Card>
                         <Card.Header className='text-center'>
                             <Card.Title>Women</Card.Title>
                         </Card.Header>
-                        <PlayerList players={womenPlayers} action={false} variant={'flush'} />
+                        <PlayerList players={womenPlayers} action={false} variant={'flush'} paginated={false}/>
                     </Card>
                 </Col>
                 <Col className='col-12 col-md-6'>
@@ -47,7 +49,7 @@ const TeamDetails = ({detailsObject}) => {
                         <Card.Header className='text-center'>
                             <Card.Title>Men</Card.Title>
                         </Card.Header>
-                        <PlayerList players={menPlayers} action={false} variant={'flush'} />
+                        <PlayerList players={menPlayers} action={false} variant={'flush'} paginated={false}/>
                     </Card>
                 </Col>
             </Row>
@@ -58,10 +60,6 @@ const TeamDetails = ({detailsObject}) => {
     )
 }
 
-const DetailsListGroupItem = ({title, value}) => {
-    return ( 
-        <ListGroup.Item className='d-flex flex-wrap justify-content-between'><span className='text-muted'>{title}</span> {value}</ListGroup.Item>
-    )
-}
+
 
 export default TeamDetails

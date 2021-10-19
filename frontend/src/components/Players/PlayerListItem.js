@@ -1,18 +1,12 @@
 import React from 'react'
 import { Col, ListGroup, Row } from 'react-bootstrap'
-const ratingColors = [
-    {color: "#AE2012"},
-    {color:"#CA6702"},
-    {color:"#EE9B00"},
-    {color:"#0A9396"},
-    {color:"#005F73"}
-]
+
 //Need to refactor - This component should be display only. Move state logic to another component.
 //should be passed a list of player
-const PlayerListItem = ({player, playerDetailsSelectHandler, action=true}) => {
+const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active}) => {
     const {playerName, age, genderMatchup, selfRating, role} = player
     return (
-        <ListGroup.Item action={action} onClick={playerDetailsSelectHandler ? ()=> playerDetailsSelectHandler(player) : undefined}>
+        <ListGroup.Item active={active} action={action} onClick={playerDetailsSelectHandler ? ()=> playerDetailsSelectHandler(player) : undefined}>
             <Row>
                 <Col><strong>{playerName}</strong></Col>
                 <Col className='d-flex justify-content-end text-muted'>
@@ -31,6 +25,15 @@ const PlayerListItem = ({player, playerDetailsSelectHandler, action=true}) => {
         </ListGroup.Item>
     )
 }
+
+
+const ratingColors = [
+    {color: "#AE2012"},
+    {color:"#CA6702"},
+    {color:"#EE9B00"},
+    {color:"#0A9396"},
+    {color:"#005F73"}
+]
 
 const RatingNumber = ({rating}) =>{
     let color

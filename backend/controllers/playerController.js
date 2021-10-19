@@ -1,7 +1,6 @@
 import Player from "../models/playerModel.js";
 import asyncHandler from 'express-async-handler'
-import e from "express";
-import User from "../models/userModel.js";
+
 
 //@desc     Get all players in all leagues
 //@route    GET /api/players
@@ -123,6 +122,24 @@ const deletePlayer = asyncHandler(async (req,res)=> {
     else{
         res.status(404)
         throw new Error('unable to delete player - not found')
+    }
+})
+
+
+//@desc removes team id from player document then finds the removed team and removes player Id from team doc.
+//route PUT /api/players/removeTeam
+//access private/admin 
+const removePlayerFromTeam = asyncHandler(async (req,res) => {
+    const player = await Player.findById(req.params.id)
+    if(player){
+        const playerTeam = player.team
+        player.removeTeamFromPlayer()
+
+        //get Team docuement call removePlayerfromTeam()
+        
+    }else{
+        res.status(404)
+        throw new Error('Player not found.')
     }
 })
 

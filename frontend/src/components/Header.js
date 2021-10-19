@@ -4,7 +4,7 @@ import {Navbar, Nav, Container ,NavDropdown} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import { logout, selectLoggedInUser } from '../slices/loggedInUserSlice'
 
-const Header = () => {
+const Header = ({history}) => {
     const {loggedInUser} = useSelector(selectLoggedInUser)
     const dispatch = useDispatch()
     
@@ -33,7 +33,9 @@ const Header = () => {
                                 <LinkContainer to='/profile'>
                                     <NavDropdown.Item>Profile</NavDropdown.Item>
                                 </LinkContainer>
-                                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                <LinkContainer to='/'>
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                </LinkContainer>
                             </NavDropdown>
                             </>
                             :

@@ -78,6 +78,16 @@ const playerSchema = mongoose.Schema({
     }
 })
 
+playerSchema.methods.removeTeamFromPlayer = function(){
+    this.team = undefined
+    return this.save()
+}
+
+playerSchema.methods.addTeamIdToPlayer = function(teamId){
+    this.team  = teamId
+    return this.save()
+}
+
 const Player = mongoose.model('Player', playerSchema)
 
 export default Player

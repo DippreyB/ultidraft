@@ -1,29 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import {Col, ListGroup, Row} from 'react-bootstrap'
 
 
 
-const TeamListItem = ({team, teamDetailsSelectHandler}) => {
+const TeamListItem = ({team, teamDetailsSelectHandler, active}) => {
     const {teamName, roster} = team
     // const [clickedInput, setClickedInput] = useState();
-     const activeInput = useRef()
+     
     
 
     
      const selectHandler = () => {
          teamDetailsSelectHandler(team)
-    //     setClickedInput(activeInput.current)
-    //     console.log(clickedInput)
-    //     //activeInput.current.classList.toggle('active')
      }
-  
-    // useEffect(()=>{
-    //         activeInput.current.classList.toggle('active')
-    // },[activeInput.current])
 
 
     return (
-        <ListGroup.Item ref={activeInput} action onClick={()=>selectHandler()}>
+        <ListGroup.Item active={active} action onClick={()=>selectHandler()}>
             <Row>
                 <Col><strong>{teamName}</strong></Col> 
             </Row>

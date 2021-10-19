@@ -41,7 +41,7 @@ export const loggedInUserSlice = createSlice({
         logout: state => {
             state.loggedInUser = null
             state.error = null
-            localStorage.removeItem('loggedInUser')
+            localStorage.clear()
         }
     },
     extraReducers: (builder) => {

@@ -22,6 +22,7 @@ export const getAdminLeagues = createAsyncThunk('leagues/adminLeagues', async (_
         return res.data
 })
 
+//get league name and ID from api. We probably dont want to request all league data (players, teams) at once.
 export const getUserLeagues = createAsyncThunk('leagues/userLeagues', async (_, {getState}) =>{
     const userToken = getState().loggedInUser.loggedInUser.token
     const config = {
@@ -34,6 +35,7 @@ export const getUserLeagues = createAsyncThunk('leagues/userLeagues', async (_, 
         return res.data
 })
 
+//Call this when user selects a league to get all league info 
 export const getActiveLeague = createAsyncThunk('leagues/selectedLeague', async ({leagueId}, {getState}) => {
     const userToken = getState().loggedInUser.loggedInUser.token
     const config = {
@@ -72,6 +74,7 @@ const leaguesSlice = createSlice({
             state.adminLeagues = []
             state.activeLeague = {}
             state.error = null
+            localStorage.removeItem('selectedLeague')
         })
     }
 })
