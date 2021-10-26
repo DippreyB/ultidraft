@@ -133,7 +133,7 @@ const removePlayerFromTeam = asyncHandler(async (req,res) => {
     const player = await Player.findById(req.params.id)
     if(player){
         const playerTeam = player.team
-        player.removeTeamFromPlayer()
+        player.removeTeam()
 
         //get Team docuement call removePlayerfromTeam()
         

@@ -78,12 +78,12 @@ const playerSchema = mongoose.Schema({
     }
 })
 
-playerSchema.methods.removeTeamFromPlayer = function(){
+playerSchema.methods.removeTeam = function(){
     this.team = undefined
     return this.save()
 }
 
-playerSchema.methods.addTeamIdToPlayer = function(teamId){
+playerSchema.methods.addTeamId = function(teamId){
     this.team  = teamId
     return this.save()
 }

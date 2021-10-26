@@ -6,6 +6,9 @@ import LeaguesOffscreen from '../components/Dashboard/LeaguesOffscreen'
 import PlayerList from '../components/Players/PlayerList';
 import TeamsList from '../components/Teams/TeamsList';
 import { getActiveLeague, selectActiveLeague } from '../slices/leaguesSlice';
+import { selectActivePlayers } from '../slices/playersSlice';
+import { selectActiveTeams } from '../slices/teamsSlice';
+
 
 
 const Dashboard = () => {
@@ -17,7 +20,8 @@ const Dashboard = () => {
         
     }
 
-    const {activeLeaguePlayers,activeLeagueTeams} = useSelector(selectActiveLeague)
+    const {activeLeagueTeams} = useSelector(selectActiveTeams)
+    const {activeLeaguePlayers} = useSelector(selectActivePlayers)
     const dispatch = useDispatch()
 
     
@@ -51,7 +55,7 @@ const Dashboard = () => {
                     <LeaguesOffscreen leagueSelectHandler={leagueSelectHandler}/>
                 </Col>
             </Row>
-            {activeLeaguePlayers === undefined && activeLeagueTeams === undefined ? <Spinner animation='border'></Spinner> :
+            {activeLeaguePlayers === undefined || activeLeagueTeams === undefined ? <Spinner animation='border'></Spinner> :
                 <Row>
                     <Col md={4}> 
                         <Tabs >

@@ -99,8 +99,7 @@ const deleteTeam = asyncHandler(async (req,res) =>{
 const addPlayerToTeam = asyncHandler(async (req,res) =>{
     const team  = await Team.findById(req.params.id)
     if(team){
-        team.roster.push(req.body.playerId)
-        const updatedTeam = await team.save()
+        const updatedTeam = team.addPlayer(req.body.playerId)
         res.json(updatedTeam)
     } else{
         res.status(404)
@@ -114,8 +113,8 @@ const addPlayerToTeam = asyncHandler(async (req,res) =>{
 const removePlayerFromTeam = asyncHandler(async (req,res) => {
     const team = await Team.findById(req.params.id)
     if(team){
-        team.roster = team.roster.filter(playerId => playerId != req.body.playerId)
-        const updatedTeam = await team.save()
+        const updatedTeam = await team.removePlayer(req.body.playerId)
+        
         res.json(updatedTeam)
     }else{
         res.status(404)

@@ -26,6 +26,17 @@ const teamSchema = mongoose.Schema({
     }
 })
 
+teamSchema.methods.removePlayer = function(playerId){
+    this.roster = this.roster.filter(player =>{
+        return player != playerId
+    })
+    return this.save()
+}
+teamSchema.methods.addPlayer = function(playerId){
+    this.roster.push(playerId)
+    return this.save()
+}
+
 const Team = mongoose.model('Team', teamSchema)
 
 export default Team

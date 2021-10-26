@@ -1,11 +1,11 @@
 import React from 'react'
 import { Col, Row, Card, ListGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-import { selectActiveLeague } from '../../slices/leaguesSlice'
+import { selectActiveTeams } from '../../slices/teamsSlice'
 
 const PlayerDetails = ({detailsObject}) => {
 
-    const {activeLeagueTeams} = useSelector(selectActiveLeague)
+    const {activeLeagueTeams} = useSelector(selectActiveTeams)
     
     const playerTeam = activeLeagueTeams.filter(team => {
         return team._id === detailsObject.team

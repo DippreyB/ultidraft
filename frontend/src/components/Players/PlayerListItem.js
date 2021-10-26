@@ -3,7 +3,7 @@ import { Col, ListGroup, Row } from 'react-bootstrap'
 
 //Need to refactor - This component should be display only. Move state logic to another component.
 //should be passed a list of player
-const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active}) => {
+const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active, children}) => {
     const {playerName, age, genderMatchup, selfRating, role} = player
     return (
         <ListGroup.Item active={active} action={action} onClick={playerDetailsSelectHandler ? ()=> playerDetailsSelectHandler(player) : undefined}>
@@ -18,10 +18,15 @@ const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active
                 <Col xs='auto'><span className='text-muted'>Rating: </span>
                 <RatingNumber rating={selfRating}/>
                 </Col>
-                <Col>
+                <Col xs='auto'>
                     <span className='text-muted'>Position: </span><span className='text-capitalize'>{role}</span>
                 </Col>
+                {children && <Col className='d-flex justify-content-end'>
+                    {children}
+                </Col>}
             </Row>
+            
+            
         </ListGroup.Item>
     )
 }
