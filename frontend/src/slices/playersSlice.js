@@ -20,6 +20,32 @@ export const getActiveLeaguePlayers = createAsyncThunk('players/activePlayers', 
     return activeLeaguePlayers
 })
 
+export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async({playerId}, {getState})=> {
+    const userToken = getState().loggedInUser.loggedInUser.token
+    const config = {
+        headers:{
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userToken}`
+        }
+    }
+
+    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/removeTeam`,config)
+    return updatedPlayer
+})
+
+export const addTeamIdToPlayer = createAsyncThunk('players/addId',async({playerId, teamId}, {getState})=> {
+    const userToken = getState().loggedInUser.loggedInUser.token
+    const config = {
+        headers:{
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userToken}`
+        }
+    }
+
+    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/addTeam`,{teamId},config)
+    return updatedPlayer
+})
+
 const playersSlice = createSlice({
     name:"players", 
     initialState,
@@ -32,6 +58,18 @@ const playersSlice = createSlice({
         })
         .addCase(logout, (state,action) =>{
             state.activeLeaguePlayers = undefined
+        })
+        .addCase(removeTeamIdFromPlayer.fulfilled, (state,action) => {
+            const player = state.activeLeaguePlayers.find(player => player._id === action.payload._id)
+            if(player){
+                player.team = action.payload.team
+            }
+        })
+        .addCase(addTeamIdToPlayer.fulfilled, (state,action) => { 
+            const player = state.activeLeaguePlayers.find(player => player._id === action.payload._id)
+            if(player){
+                player.team = action.payload.team
+            }
         })
     }
 })

@@ -99,7 +99,7 @@ const deleteTeam = asyncHandler(async (req,res) =>{
 const addPlayerToTeam = asyncHandler(async (req,res) =>{
     const team  = await Team.findById(req.params.id)
     if(team){
-        const updatedTeam = team.addPlayer(req.body.playerId)
+        const updatedTeam = await team.addPlayer(req.body.playerId)
         res.json(updatedTeam)
     } else{
         res.status(404)
@@ -114,13 +114,14 @@ const removePlayerFromTeam = asyncHandler(async (req,res) => {
     const team = await Team.findById(req.params.id)
     if(team){
         const updatedTeam = await team.removePlayer(req.body.playerId)
-        
         res.json(updatedTeam)
     }else{
         res.status(404)
         throw new Error('Team not found, unable to remove player.')
     }
 })
+
+
 
 export {
     getAllTeams,
@@ -130,5 +131,5 @@ export {
     deleteTeam,
     addPlayerToTeam,
     removePlayerFromTeam,
-    getTeamsByLeagueId
+    getTeamsByLeagueId,
 }
