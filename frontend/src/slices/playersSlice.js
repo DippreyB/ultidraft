@@ -20,7 +20,7 @@ export const getActiveLeaguePlayers = createAsyncThunk('players/activePlayers', 
     return activeLeaguePlayers
 })
 
-export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async({playerId}, {getState})=> {
+export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async({playerId, teamId}, {getState})=> {
     const userToken = getState().loggedInUser.loggedInUser.token
     const config = {
         headers:{
@@ -29,7 +29,8 @@ export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async(
         }
     }
 
-    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/removeTeam`,config)
+    const {data: updatedPlayer, error} = await axios.put(`/api/players/${playerId}/removeTeam`,{teamId},config)
+    console.log(error)
     return updatedPlayer
 })
 

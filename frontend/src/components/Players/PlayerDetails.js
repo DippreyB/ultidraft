@@ -1,11 +1,14 @@
 import React from 'react'
 import { Col, Row, Card, ListGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
+import { selectLoggedInUser } from '../../slices/loggedInUserSlice'
 import { selectActiveTeams } from '../../slices/teamsSlice'
+import PlayerTeamSelect from './PlayerTeamSelect'
 
 const PlayerDetails = ({detailsObject}) => {
 
     const {activeLeagueTeams} = useSelector(selectActiveTeams)
+    const {loggedInUser} = useSelector(selectLoggedInUser)
     
     const playerTeam = activeLeagueTeams.filter(team => {
         return team._id === detailsObject.team
@@ -39,6 +42,10 @@ const PlayerDetails = ({detailsObject}) => {
                     <DetailsListGroupItem title={'Experience'} value={detailsObject.experience} />
                     <DetailsListGroupItem title={'Comments'} value={detailsObject.comments} />
                     <DetailsListGroupItem title={'Team'} value={playerTeam[0] ? playerTeam[0].teamName : 'Free Agent'} />
+                    
+                    {loggedInUser && loggedInUser.isAdmin &&
+                        <ListGroup.Item><PlayerTeamSelect player={detailsObject} teams={activeLeagueTeams}></PlayerTeamSelect></ListGroup.Item>
+                    }
                     </ListGroup>
                 </Col>
             </Row>

@@ -6,7 +6,7 @@ import PlayerListItem from './PlayerListItem'
 
 const PlayerList = ({players, playerDetailsSelectHandler, action, variant, selectedPlayer, paginated=true}) => {
 
-    //todo - rewrite as paginated api call? Maybe put pagination into a hook. use local storage to remember page on refresh?
+    //todo - refactor into usePagination
     const [currentPageNum, setPageNum] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
     const [filteredPlayers, setFilteredPlayers] = useState(players)

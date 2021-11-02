@@ -22,7 +22,7 @@ export const getActiveLeagueTeams = createAsyncThunk('teams/activeTeams', async(
 
 })
 
-export const removePlayerIdFromTeamRoster = createAsyncThunk('teams/removePlayer', async({playerId, teamId}, {getState, dispatch}) => {
+export const removePlayerFromTeam = createAsyncThunk('teams/removePlayer', async({playerId, teamId}, {getState, dispatch}) => {
     const userToken = getState().loggedInUser.loggedInUser.token
     const config = {
         headers:{
@@ -32,11 +32,12 @@ export const removePlayerIdFromTeamRoster = createAsyncThunk('teams/removePlayer
     }
     
     const {data: updatedTeam} = await axios.put(`/api/teams/removePlayer/${teamId}`,{playerId}, config)
-    await dispatch(removeTeamIdFromPlayer(playerId))
+    await dispatch(removeTeamIdFromPlayer({playerId, teamId}))
     return updatedTeam
 })
 
-export const addPlayerIdToTeamRoster = createAsyncThunk('teams/addPlayer', async({playerId, teamId},{getState, dispatch})=> {
+export const addPlayerToTeam = createAsyncThunk('teams/addPlayer', async({playerId, teamId},{getState, dispatch})=> {
+    console.log('addingPlayerToTeam')
     const userToken = getState().loggedInUser.loggedInUser.token
     const config = {
         headers:{
@@ -63,13 +64,13 @@ const teamsSlice = createSlice({
         builder.addCase(logout, (state,action) => {
             state.activeLeagueTeams = undefined
         })
-        builder.addCase(removePlayerIdFromTeamRoster.fulfilled, (state,action) =>{ 
+        builder.addCase(removePlayerFromTeam.fulfilled, (state,action) =>{ 
             const team = state.activeLeagueTeams.find(team => team._id === action.payload._id)
             if(team){
                 team.roster = action.payload.roster
             }
         })
-        builder.addCase(addPlayerIdToTeamRoster.fulfilled, (state,action) => {
+        builder.addCase(addPlayerToTeam.fulfilled, (state,action) => {
             const team = state.activeLeagueTeams.find(team => team._id === action.payload.id)
             if(team){
                 team.roster = action.payload.roster

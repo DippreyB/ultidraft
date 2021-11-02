@@ -130,7 +130,9 @@ const deletePlayer = asyncHandler(async (req,res)=> {
 //route PUT /api/players/:id/removeTeam
 //access private/admin 
 const removeTeamIdFromPlayer = asyncHandler(async (req,res) => {
+    console.log('removing team id...')
     const player = await Player.findById(req.params.id)
+    
     if(player){
         const updatedPlayer = await player.removeTeam()
         res.json(updatedPlayer)

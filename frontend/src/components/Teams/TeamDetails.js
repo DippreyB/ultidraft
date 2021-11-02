@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Row, Card, ListGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActivePlayers } from '../../slices/playersSlice'
-import {removePlayerIdFromTeamRoster, selectActiveTeams } from '../../slices/teamsSlice'
+import {removePlayerFromTeam, selectActiveTeams } from '../../slices/teamsSlice'
 import PlayerList from '../Players/PlayerList'
 import PlayerListItem from '../Players/PlayerListItem'
 
@@ -27,7 +27,7 @@ const TeamDetails = ({detailsObject}) => {
 
     const dispatch = useDispatch();
     const removePlayerHandler = (playerId, teamId) => {
-        dispatch(removePlayerIdFromTeamRoster({playerId, teamId}))
+        dispatch(removePlayerFromTeam({playerId, teamId}))
     }
 
 
@@ -68,7 +68,13 @@ const TeamDetails = ({detailsObject}) => {
                         <Card.Header className='text-center'>
                             <Card.Title>Men</Card.Title>
                         </Card.Header>
-                        <PlayerList players={menPlayers} action={false} variant={'flush'} paginated={false}/>
+                        {menPlayers.map(player=> {
+                            return (
+                                <PlayerListItem key={player._id} player={player} action={false}>
+                                    <Button variant='danger' onClick={()=>removePlayerHandler(player.id, teamId)}>X</Button>
+                                </PlayerListItem>
+                            )
+                        })}
                     </Card>
                 </Col>
             </Row>
