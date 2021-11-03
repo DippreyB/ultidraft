@@ -5,7 +5,7 @@ import DetailsPanel from '../components/Dashboard/DetailsPanel';
 import LeaguesOffscreen from '../components/Dashboard/LeaguesOffscreen'
 import PlayerList from '../components/Players/PlayerList';
 import TeamsList from '../components/Teams/TeamsList';
-import { getActiveLeague, selectActiveLeague } from '../slices/leaguesSlice';
+import { getActiveLeague } from '../slices/leaguesSlice';
 import { selectActivePlayers } from '../slices/playersSlice';
 import { selectActiveTeams } from '../slices/teamsSlice';
 

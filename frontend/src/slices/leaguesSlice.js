@@ -26,14 +26,6 @@ export const getUserLeagues = createAsyncThunk('leagues/userLeagues', async (_, 
 //Call this when user selects a league to get all league info 
 //change to only set active league in state. PlayersSlice and TeamsSlice will access activeLeague in state
 export const getActiveLeague = createAsyncThunk('leagues/selectedLeague', async (leagueId, {getState, dispatch}) => {
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-    
     await dispatch(getActiveLeaguePlayers(leagueId))
     await dispatch(getActiveLeagueTeams(leagueId))
     return {

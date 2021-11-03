@@ -45,7 +45,7 @@ const teamsSlice = createSlice({
             }
         })
         builder.addCase(addPlayerToTeam.fulfilled, (state,action) => {
-            const team = state.activeLeagueTeams.find(team => team._id === action.payload.id)
+            const team = state.activeLeagueTeams.find(team => team._id === action.payload._id) //missing an _ on id... how am i so stupid
             if(team){
                 team.roster = action.payload.roster
             }

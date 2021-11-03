@@ -1,4 +1,4 @@
-import Axios, { AxiosRequestConfig } from 'axios'
+import Axios from 'axios'
 
 
 const authRequestInterceptor = (config) => {

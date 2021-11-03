@@ -1,8 +1,7 @@
 import React from 'react'
 import { Col, ListGroup, Row } from 'react-bootstrap'
 
-//Need to refactor - This component should be display only. Move state logic to another component.
-//should be passed a list of player
+
 const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active, children}) => {
     const {playerName, age, genderMatchup, selfRating, role} = player
     return (

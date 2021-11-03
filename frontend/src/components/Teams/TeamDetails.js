@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Card, ListGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Col, Row, Card, ListGroup, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActivePlayers } from '../../slices/playersSlice'
 import {removePlayerFromTeam, selectActiveTeams } from '../../slices/teamsSlice'
