@@ -65,5 +65,6 @@ export const loggedInUserSlice = createSlice({
 
 
 export const selectLoggedInUser = state => state.loggedInUser
+export const selectLoggedInUserToken = state => state.loggedInUser.loggedInUser.token
 export const {logout} = loggedInUserSlice.actions
 export default loggedInUserSlice.reducer

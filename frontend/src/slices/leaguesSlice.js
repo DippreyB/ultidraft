@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from 'axios'
+import axios from '../lib/axios'
 import { logout } from "./loggedInUserSlice";
 import { getActiveLeaguePlayers } from "./playersSlice";
 import { getActiveLeagueTeams } from "./teamsSlice";
@@ -13,27 +13,13 @@ const initialState = {
 }
 
 export const getAdminLeagues = createAsyncThunk('leagues/adminLeagues', async (_, {getState}) =>{
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-        const res = await axios.get(`/api/leagues/`, config)
+        const res = await axios.get(`/api/leagues/`)
         return res.data
 })
 
 //get league name and ID from api. We probably dont want to request all league data (players, teams) at once.
 export const getUserLeagues = createAsyncThunk('leagues/userLeagues', async (_, {getState}) =>{
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-        const res = await axios.get(`/api/leagues/myLeagues`, config)
+        const res = await axios.get(`/api/leagues/myLeagues`)
         return res.data
 })
 

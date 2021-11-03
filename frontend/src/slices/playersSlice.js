@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from 'axios'
+import axios from '../lib/axios'
 import { logout } from "./loggedInUserSlice";
 
 const initialState = {
@@ -7,43 +7,18 @@ const initialState = {
     error: null,
 }
 
-export const getActiveLeaguePlayers = createAsyncThunk('players/activePlayers', async ({leagueId}, {getState}) =>{
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-    const {data: activeLeaguePlayers} = await axios.get(`/api/players/league/${leagueId}`,config)
-
+export const getActiveLeaguePlayers = createAsyncThunk('players/activePlayers', async ({leagueId}) =>{
+    const {data: activeLeaguePlayers} = await axios.get(`/api/players/league/${leagueId}`)
     return activeLeaguePlayers
 })
 
-export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async({playerId, teamId}, {getState})=> {
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-
-    const {data: updatedPlayer, error} = await axios.put(`/api/players/${playerId}/removeTeam`,{teamId},config)
-    console.log(error)
+export const removeTeamIdFromPlayer = createAsyncThunk('players/removeId',async({playerId, teamId})=> {
+    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/removeTeam`,{teamId})
     return updatedPlayer
 })
 
-export const addTeamIdToPlayer = createAsyncThunk('players/addId',async({playerId, teamId}, {getState})=> {
-    const userToken = getState().loggedInUser.loggedInUser.token
-    const config = {
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`
-        }
-    }
-
-    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/addTeam`,{teamId},config)
+export const addTeamIdToPlayer = createAsyncThunk('players/addId',async({playerId, teamId})=> {
+    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/addTeam`,{teamId})
     return updatedPlayer
 })
 
