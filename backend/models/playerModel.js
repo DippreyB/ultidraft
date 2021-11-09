@@ -80,6 +80,7 @@ const playerSchema = mongoose.Schema({
 
 playerSchema.methods.removeTeam = function(){
     this.team = undefined
+    this.isCaptain = false;
     return this.save()
 }
 
@@ -87,6 +88,12 @@ playerSchema.methods.addTeamId = function(teamId){
     this.team  = teamId
     return this.save()
 }
+
+playerSchema.methods.toggleCaptain = function(){
+    this.isCaptain = !this.isCaptain;
+    return this.save()
+}
+
 
 const Player = mongoose.model('Player', playerSchema)
 

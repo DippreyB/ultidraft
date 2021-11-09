@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form, InputGroup, Toast } from 'react-bootstrap'
+import { Button, Form, InputGroup } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { addPlayerToTeam, removePlayerFromTeam } from '../../slices/teamsSlice'
+import toast from 'react-hot-toast'
 
 const PlayerTeamSelect = ({player, teams}) => {
-    //TODO - notifications when request is fulfilled  or rejected
-    //use Toast to show summary of action taken
+    
     const [selectedOption,setSelectedOption] = useState()
     const [addPlayerResult, setAddPlayerResult] = useState()
     const [showToast, setShowToast] = useState(false)
@@ -20,7 +20,10 @@ const PlayerTeamSelect = ({player, teams}) => {
             }
             const result = await dispatch(addPlayerToTeam({playerId, teamId:selectedOption}))
             setAddPlayerResult(result)
-            
+            toast.success('Player added to team.')
+        }
+        else{
+            toast.error('Player already on team.')
         }
 
     }
@@ -50,11 +53,6 @@ const PlayerTeamSelect = ({player, teams}) => {
                 <Button  onClick={onSubmitHandler}>Change Team</Button>
             </InputGroup>
         </Form>
-        <Toast show={showToast} onClose={toggleToast} autohide delay={2000}>
-            <Toast.Header>
-                <strong>Player Updated</strong>
-            </Toast.Header>
-        </Toast>
         </>
     )
 }

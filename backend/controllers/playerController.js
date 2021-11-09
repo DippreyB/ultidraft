@@ -126,7 +126,7 @@ const deletePlayer = asyncHandler(async (req,res)=> {
 })
 
 
-//@desc removes team id from player document then finds the removed team and removes player Id from team doc.
+//@desc removes team id from player
 //route PUT /api/players/:id/removeTeam
 //access private/admin 
 const removeTeamIdFromPlayer = asyncHandler(async (req,res) => {
@@ -140,6 +140,9 @@ const removeTeamIdFromPlayer = asyncHandler(async (req,res) => {
     }
 })
 
+//@desc     Adds a team id to player
+//@route    PUT /api/players/:id/addTeam
+//@access   private/admin 
 const addTeamIdToPlayer = asyncHandler(async (req,res) => { 
     const player = await Player.findById(req.params.id)
     if(player){
@@ -152,7 +155,20 @@ const addTeamIdToPlayer = asyncHandler(async (req,res) => {
 })
 
 
-
+//@desc     Toggles player isCaptain value
+//@route    PUT /api/players/:id/captain
+//@access   private/admin 
+const togglePlayerIsCaptain = asyncHandler( async (req,res) => { 
+    const player = await Player.findById(req.params.id)
+    if(player){
+        const updatedPlayer = await player.toggleCaptain()
+        res.json(updatedPlayer)
+    }else{
+        res.status(404)
+        throw new Error('Player not found.')
+    }
+})
+ 
 
 
 export {
@@ -163,6 +179,7 @@ export {
     updatePlayer,
     deletePlayer,
     removeTeamIdFromPlayer,
-    addTeamIdToPlayer
+    addTeamIdToPlayer,
+    togglePlayerIsCaptain
 }
 

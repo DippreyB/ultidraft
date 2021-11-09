@@ -1,5 +1,5 @@
 import express from 'express'
-import { addTeamIdToPlayer, createPlayer, deletePlayer, getAllPlayers, getPlayerById, getPlayersbyLeagueId, removeTeamIdFromPlayer, updatePlayer } from '../controllers/playerController.js'
+import { addTeamIdToPlayer, createPlayer, deletePlayer, getAllPlayers, getPlayerById, getPlayersbyLeagueId, removeTeamIdFromPlayer, togglePlayerIsCaptain, updatePlayer } from '../controllers/playerController.js'
 import {protect, admin} from '../middleware/authMiddleware.js'
 const router = express.Router()
 
@@ -13,6 +13,9 @@ router.route('/:id/removeTeam')
 router.route('/:id/addTeam')
     .put(protect,admin,addTeamIdToPlayer)
 
+router.route('/:id/captain')
+    .put(protect,admin,togglePlayerIsCaptain)
+
 router.route('/:id')
     .get(protect, getPlayerById)
     .put(protect,admin,updatePlayer)
@@ -21,7 +24,7 @@ router.route('/:id')
 
 
 router.route('/league/:leagueId')
-    .get(protect,admin,getPlayersbyLeagueId)
+    .get(protect,getPlayersbyLeagueId)
 
 
 export default router

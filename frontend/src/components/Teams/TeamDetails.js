@@ -3,13 +3,16 @@ import { Col, Row, Card, ListGroup, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActivePlayers } from '../../slices/playersSlice'
 import {removePlayerFromTeam, selectActiveTeams } from '../../slices/teamsSlice'
-import PlayerList from '../Players/PlayerList'
 import PlayerListItem from '../Players/PlayerListItem'
+import toast from 'react-hot-toast'
+import {CgRemove} from 'react-icons/cg'
+import { selectLoggedInUser } from '../../slices/loggedInUserSlice'
 
 const TeamDetails = ({selectedTeam}) => {
     const {_id: teamId}  = selectedTeam
     const {activeLeaguePlayers} = useSelector(selectActivePlayers)
     const {activeLeagueTeams} = useSelector(selectActiveTeams)
+    const {loggedInUser} = useSelector(selectLoggedInUser)
 
     const {teamName, roster } = activeLeagueTeams.find(team => team._id === teamId)
     
@@ -26,8 +29,10 @@ const TeamDetails = ({selectedTeam}) => {
     })
 
     const dispatch = useDispatch();
-    const removePlayerHandler = (playerId, teamId) => {
-        dispatch(removePlayerFromTeam({playerId, teamId}))
+    const removePlayerHandler = async (playerId, teamId) => {
+        const result = await dispatch(removePlayerFromTeam({playerId, teamId}))
+        if(result.type.includes('fulfilled'))
+            toast.success('Player removed from team.')
     }
 
 
@@ -42,7 +47,15 @@ const TeamDetails = ({selectedTeam}) => {
             <Row>
                 <Col>
                         <h5>Captains</h5>
-                        <PlayerList players={teamCaptains} action={false} variant={'flush'} paginated={false}/>
+                        <ListGroup   >
+                            {teamCaptains.map(captain => {
+                                return (
+                                    <PlayerListItem key={captain._id+'-captain'} player={captain} action={false}>
+
+                                    </PlayerListItem>
+                                )
+                            })}
+                        </ListGroup>
                 </Col>    
             </Row>
             <Row>
@@ -55,8 +68,12 @@ const TeamDetails = ({selectedTeam}) => {
                         <ListGroup variant={'flush'}>
                             {womenPlayers.map(player => {
                                 return (
-                                <PlayerListItem key={player._id} player={player} action={false}>
-                                        <Button variant='danger' onClick={()=> removePlayerHandler(player._id, teamId)}>X</Button>
+                                    <PlayerListItem key={player._id} player={player} action={false}>
+                                    {loggedInUser && loggedInUser.isAdmin &&
+                                    <Button className='pb-1 px-1 pt-0' variant='outline-danger' onClick={()=>removePlayerHandler(player._id, teamId)}>
+                                       <CgRemove size={20}/>
+                                    </Button>
+                                     }
                                 </PlayerListItem>
                                 )
                             })}
@@ -71,7 +88,11 @@ const TeamDetails = ({selectedTeam}) => {
                         {menPlayers.map(player=> {
                             return (
                                 <PlayerListItem key={player._id} player={player} action={false}>
-                                    <Button variant='danger' onClick={()=>removePlayerHandler(player._id, teamId)}>X</Button>
+                                    {loggedInUser && loggedInUser.isAdmin &&
+                                    <Button className='pb-1 px-1 pt-0' variant='outline-danger' onClick={()=>removePlayerHandler(player._id, teamId)}>
+                                       <CgRemove size={20}/>
+                                    </Button>
+                                    }
                                 </PlayerListItem>
                             )
                         })}

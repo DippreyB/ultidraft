@@ -7,6 +7,7 @@ import TeamsTab from '../components/Dashboard/TeamsTab'
 import { getActiveLeague } from '../slices/leaguesSlice';
 import { selectActivePlayers } from '../slices/playersSlice';
 import { selectActiveTeams } from '../slices/teamsSlice';
+import { Toaster } from 'react-hot-toast'
 
 
 
@@ -23,8 +24,6 @@ const Dashboard = () => {
     const {activeLeaguePlayers} = useSelector(selectActivePlayers)
     const dispatch = useDispatch()
 
-    
-    // const [detailsObject, setDetailsObject] = useState(localStorage.getItem('selectedDetails') ? JSON.parse(localStorage.getItem('selectedDetails')) : null)
 
     useEffect(()=>{
         if(selectedLeague){
@@ -34,7 +33,7 @@ const Dashboard = () => {
 
     return (
         <>
-        
+        <Toaster containerStyle={{top:'100px'}}/>
         <Container>
             <Row className='align-items-center'>
                 <Col xs={'auto'}>
