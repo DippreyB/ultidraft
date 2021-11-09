@@ -8,7 +8,6 @@ const PlayerTeamSelect = ({player, teams}) => {
     
     const [selectedOption,setSelectedOption] = useState()
     const [addPlayerResult, setAddPlayerResult] = useState()
-    const [showToast, setShowToast] = useState(false)
     const dispatch = useDispatch()
 
     const onSubmitHandler = async () => {
@@ -27,16 +26,6 @@ const PlayerTeamSelect = ({player, teams}) => {
         }
 
     }
-
-    useEffect(()=> {
-        if(addPlayerResult)
-            setShowToast(addPlayerResult.type.includes('fulfilled'))
-    },[addPlayerResult])
-
-    const toggleToast = () => setShowToast(!showToast)
-
-    
-    
 
     return (
         <>

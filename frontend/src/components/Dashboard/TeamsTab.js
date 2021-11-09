@@ -15,7 +15,7 @@ const TeamsTab = ({teams}) => {
     useEffect(() => {
         if(selectedTeam)
             setSelectedTeam(teams.find(team => team._id === selectedTeam._id))
-    },[teams])
+    },[teams,selectedTeam])
 
     return (
         <>

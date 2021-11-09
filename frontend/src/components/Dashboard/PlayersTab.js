@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tab, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import PlayerDetails from '../Players/PlayerDetails'
 import PlayerList from '../Players/PlayerList'
 import DetailsPanel from './DetailsPanel'
@@ -15,7 +15,7 @@ const PlayersTab = ({players}) => {
     useEffect(() => {
         if(selectedPlayer)
             setSelectedPlayer(players.find(player => player._id === selectedPlayer._id))
-    },[players])
+    },[players,selectedPlayer])
 
     return (
         <>

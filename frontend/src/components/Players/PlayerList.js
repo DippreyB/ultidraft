@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, ListGroup, Pagination } from 'react-bootstrap'
+import { ListGroup, Pagination } from 'react-bootstrap'
 import PlayerListItem from './PlayerListItem'
 
 
