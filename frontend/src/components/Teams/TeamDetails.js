@@ -3,9 +3,11 @@ import { Col, Row, Card, ListGroup, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActivePlayers } from '../../slices/playersSlice'
 import {removePlayerFromTeam, selectActiveTeams } from '../../slices/teamsSlice'
+import { togglePlayerCaptainStatus } from '../../slices/playersSlice'
 import PlayerListItem from '../Players/PlayerListItem'
 import toast from 'react-hot-toast'
 import {CgRemove} from 'react-icons/cg'
+import {AiOutlineStar, AiFillStar} from 'react-icons/ai'
 import { selectLoggedInUser } from '../../slices/loggedInUserSlice'
 
 const TeamDetails = ({selectedTeam}) => {
@@ -33,6 +35,12 @@ const TeamDetails = ({selectedTeam}) => {
         const result = await dispatch(removePlayerFromTeam({playerId, teamId}))
         if(result.type.includes('fulfilled'))
             toast.success('Player removed from team.')
+    }
+
+    const togglePlayerCaptainHandler = async(playerId) => { 
+        const result = await dispatch(togglePlayerCaptainStatus({playerId}))
+        if(result.type.includes('fulfilled'))
+            toast.success('Player captain toggled.')
     }
 
 
@@ -70,9 +78,16 @@ const TeamDetails = ({selectedTeam}) => {
                                 return (
                                     <PlayerListItem key={player._id} player={player} action={false}>
                                     {loggedInUser && loggedInUser.isAdmin &&
-                                    <Button className='pb-1 px-1 pt-0' variant='outline-danger' onClick={()=>removePlayerHandler(player._id, teamId)}>
-                                       <CgRemove size={20}/>
-                                    </Button>
+                                    <>
+                                    {/* TODO: make remove player and captain toggle buttons application wide components. */}
+                                        <Button className='pb-1 px-1 pt-0' variant='outline-warning' onClick={()=>togglePlayerCaptainHandler(player._id)}>
+                                            {player.isCaptain ?  <AiFillStar size={20}/> : <AiOutlineStar size={20}/>}
+                                        </Button>
+
+                                        <Button className='pb-1 px-1 pt-0' variant='outline-danger' onClick={()=>removePlayerHandler(player._id, teamId)}>
+                                        <CgRemove size={20}/>
+                                        </Button>
+                                    </>
                                      }
                                 </PlayerListItem>
                                 )
@@ -89,9 +104,14 @@ const TeamDetails = ({selectedTeam}) => {
                             return (
                                 <PlayerListItem key={player._id} player={player} action={false}>
                                     {loggedInUser && loggedInUser.isAdmin &&
+                                    <>
+                                    <Button className='pb-1 px-1 pt-0' variant='outline-warning' onClick={()=>togglePlayerCaptainHandler(player._id)}>
+                                        {player.isCaptain ?  <AiFillStar size={20}/> : <AiOutlineStar size={20}/>}
+                                    </Button>
                                     <Button className='pb-1 px-1 pt-0' variant='outline-danger' onClick={()=>removePlayerHandler(player._id, teamId)}>
                                        <CgRemove size={20}/>
                                     </Button>
+                                    </>
                                     }
                                 </PlayerListItem>
                             )

@@ -22,6 +22,11 @@ export const addTeamIdToPlayer = createAsyncThunk('players/addId',async({playerI
     return updatedPlayer
 })
 
+export const togglePlayerCaptainStatus = createAsyncThunk('players/toggleCaptain', async({playerId}) => { 
+    const {data: updatedPlayer} = await axios.put(`/api/players/${playerId}/captain`)
+    return updatedPlayer
+})
+
 const playersSlice = createSlice({
     name:"players", 
     initialState,
@@ -45,6 +50,12 @@ const playersSlice = createSlice({
             const player = state.activeLeaguePlayers.find(player => player._id === action.payload._id)
             if(player){
                 player.team = action.payload.team
+            }
+        })
+        .addCase(togglePlayerCaptainStatus.fulfilled, (state,action) => { 
+            const player = state.activeLeaguePlayers.find(player => player._id === action.payload._id)
+            if(player){
+                player.isCaptain = action.payload.isCaptain
             }
         })
     }
