@@ -3,7 +3,7 @@ import { ListGroup } from 'react-bootstrap'
 import TeamListItem from './TeamListItem'
 
 
-const TeamsList = ({teams, teamDetailsSelectHandler, selectedTeam}) => { 
+const TeamsList = ({teams, selectTeamHandler, selectedTeam}) => { 
 
     return (
         <>
@@ -11,7 +11,7 @@ const TeamsList = ({teams, teamDetailsSelectHandler, selectedTeam}) => {
             {teams && teams.map(team =>{
                 const isActive = selectedTeam && selectedTeam._id === team._id
                 return (
-                   <TeamListItem key={team._id} active={isActive} team={team} teamDetailsSelectHandler={teamDetailsSelectHandler}/>
+                   <TeamListItem key={team._id} active={isActive} team={team} selectTeamHandler={selectTeamHandler}/>
                 )
             })}
         </ListGroup>

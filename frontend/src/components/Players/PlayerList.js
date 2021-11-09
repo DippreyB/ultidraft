@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { ListGroup, Pagination } from 'react-bootstrap'
+import { Col, ListGroup, Pagination } from 'react-bootstrap'
 import PlayerListItem from './PlayerListItem'
 
 
 
-const PlayerList = ({players, playerDetailsSelectHandler, action, variant, selectedPlayer, paginated=true}) => {
+const PlayerList = ({players, selectPlayerHandler, action, selectedPlayer}) => {
 
     //todo - refactor into usePagination
     const [currentPageNum, setPageNum] = useState(1)
@@ -28,14 +28,12 @@ const PlayerList = ({players, playerDetailsSelectHandler, action, variant, selec
 
     return (
         <>
-        {paginated &&
             <Pagination className='d-flex justify-content-center my-2'>
                 {currentPageNum > 1 && <Pagination.Prev onClick={decreasePageHandler} />}
                 <Pagination.Item active>{currentPageNum}</Pagination.Item>
                 {players.length > currentPageNum * 10 && <Pagination.Next onClick={increasePageHandler}></Pagination.Next>}
             </Pagination>
-        }
-        <ListGroup variant={variant}>
+        <ListGroup>
             {filteredPlayers && 
                 filteredPlayers.map(player => { 
                     const isActive = selectedPlayer && selectedPlayer._id === player._id;
@@ -43,10 +41,9 @@ const PlayerList = ({players, playerDetailsSelectHandler, action, variant, selec
                     return (
                         <PlayerListItem key={player._id} 
                             player={player} 
-                            playerDetailsSelectHandler={playerDetailsSelectHandler}
+                            selectPlayerHandler={selectPlayerHandler}
                             action={action}
                             active={isActive}
-                            
                         >
 
                         </PlayerListItem>

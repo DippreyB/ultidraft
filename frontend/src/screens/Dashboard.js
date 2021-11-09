@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Spinner, Tab, Tabs } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import DetailsPanel from '../components/Dashboard/DetailsPanel';
 import LeaguesOffscreen from '../components/Dashboard/LeaguesOffscreen'
-import PlayerList from '../components/Players/PlayerList';
-import TeamsList from '../components/Teams/TeamsList';
+import PlayersTab from '../components/Dashboard/PlayersTab';
+import TeamsTab from '../components/Dashboard/TeamsTab'
 import { getActiveLeague } from '../slices/leaguesSlice';
 import { selectActivePlayers } from '../slices/playersSlice';
 import { selectActiveTeams } from '../slices/teamsSlice';
@@ -25,17 +24,7 @@ const Dashboard = () => {
     const dispatch = useDispatch()
 
     
-    const [detailsObject, setDetailsObject] = useState(localStorage.getItem('selectedDetails') ? JSON.parse(localStorage.getItem('selectedDetails')) : null)
-
-    const playerDetailsSelectHandler = (player) => {
-        setDetailsObject({...player, type: 'player'})
-        localStorage.setItem('selectedDetails', JSON.stringify({...player, type: 'player'}))
-    }
-
-    const teamDetailsSelectHandler = (team) => {
-        setDetailsObject({...team, type: 'team'})
-        localStorage.setItem('selectedDetails', JSON.stringify({...team, type: 'team'}))
-    }
+    // const [detailsObject, setDetailsObject] = useState(localStorage.getItem('selectedDetails') ? JSON.parse(localStorage.getItem('selectedDetails')) : null)
 
     useEffect(()=>{
         if(selectedLeague){
@@ -57,32 +46,15 @@ const Dashboard = () => {
             </Row>
             {activeLeaguePlayers === undefined || activeLeagueTeams === undefined ? <Spinner animation='border'></Spinner> :
                 <Row>
-                    <Col md={4}> 
                         <Tabs >
                             <Tab eventKey='players' title='Players'>
-                                {activeLeaguePlayers && 
-                                <PlayerList players={activeLeaguePlayers} 
-                                    playerDetailsSelectHandler={playerDetailsSelectHandler}
-                                    selectedPlayer = {detailsObject}
-                                /> } 
+                                <PlayersTab players={activeLeaguePlayers}/>
                             </Tab>
+                            
                             <Tab eventKey='teams' title='Teams' >
-                                {activeLeagueTeams && 
-                                <TeamsList teams={activeLeagueTeams}  
-                                    teamDetailsSelectHandler={teamDetailsSelectHandler}
-                                    selectedTeam = {detailsObject}
-                                />}
+                               <TeamsTab teams={activeLeagueTeams} />
                             </Tab>
                         </Tabs>
-                    </Col>
-                    <Col md={8}  className='d-none d-sm-block'>
-                        {detailsObject && 
-                            <DetailsPanel 
-                                detailsObject={detailsObject} 
-                                setDetailsObject={setDetailsObject}  
-                            /> 
-                        }              
-                    </Col>
                 </Row>
             }
 

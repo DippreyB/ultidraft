@@ -2,10 +2,10 @@ import React from 'react'
 import { Col, ListGroup, Row } from 'react-bootstrap'
 
 
-const PlayerListItem = ({player, playerDetailsSelectHandler, action=true, active, children}) => {
+const PlayerListItem = ({player,selectPlayerHandler, action=true, active, children}) => {
     const {playerName, age, genderMatchup, selfRating, role} = player
     return (
-        <ListGroup.Item active={active} action={action} onClick={playerDetailsSelectHandler ? ()=> playerDetailsSelectHandler(player) : undefined}>
+        <ListGroup.Item active={active} action={action} onClick={selectPlayerHandler ? ()=> selectPlayerHandler(player._id) : undefined}>
             <Row>
                 <Col><strong>{playerName}</strong></Col>
                 <Col className='d-flex justify-content-end text-muted'>

@@ -1,28 +1,42 @@
-import React, { useState } from 'react'
-import { Button, Form, InputGroup } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Button, Form, InputGroup, Toast } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { addPlayerToTeam, removePlayerFromTeam } from '../../slices/teamsSlice'
 
 const PlayerTeamSelect = ({player, teams}) => {
     //TODO - notifications when request is fulfilled  or rejected
     //use Toast to show summary of action taken
-
     const [selectedOption,setSelectedOption] = useState()
+    const [addPlayerResult, setAddPlayerResult] = useState()
+    const [showToast, setShowToast] = useState(false)
     const dispatch = useDispatch()
 
     const onSubmitHandler = async () => {
         const {team: teamId, _id: playerId} = player
         
-        if(selectedOption && selectedOption !== player.team){
-            if(player.team)
+        if(selectedOption && selectedOption !== teamId){
+            if(teamId){
                 await dispatch(removePlayerFromTeam({playerId,teamId}))
+            }
+            const result = await dispatch(addPlayerToTeam({playerId, teamId:selectedOption}))
+            setAddPlayerResult(result)
             
-            const addPlayerToTeamResult = await dispatch(addPlayerToTeam({playerId, teamId:selectedOption}))
-            console.log(addPlayerToTeamResult.type)
         }
+
     }
+
+    useEffect(()=> {
+        if(addPlayerResult)
+            setShowToast(addPlayerResult.type.includes('fulfilled'))
+    },[addPlayerResult])
+
+    const toggleToast = () => setShowToast(!showToast)
+
     
+    
+
     return (
+        <>
         <Form>
             <InputGroup>
                 <Form.Select aria-label='Player Team selector' onChange={(e)=>setSelectedOption(e.target.value)} size='sm'>
@@ -36,6 +50,12 @@ const PlayerTeamSelect = ({player, teams}) => {
                 <Button  onClick={onSubmitHandler}>Change Team</Button>
             </InputGroup>
         </Form>
+        <Toast show={showToast} onClose={toggleToast} autohide delay={2000}>
+            <Toast.Header>
+                <strong>Player Updated</strong>
+            </Toast.Header>
+        </Toast>
+        </>
     )
 }
 

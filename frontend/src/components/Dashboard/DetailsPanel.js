@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Modal } from 'react-bootstrap'
-import PlayerDetails from '../Players/PlayerDetails'
-import TeamDetails from '../Teams/TeamDetails'
 
-const DetailsPanel = ({detailsObject, setDetailsObject}) => {
+
+const DetailsPanel = ({setDetails, children, detailsObject}) => {
 
     const [isSmallWindow, setIsSmallWindow] = useState(false)
 
@@ -11,22 +10,16 @@ const DetailsPanel = ({detailsObject, setDetailsObject}) => {
         setIsSmallWindow(window.matchMedia("(max-width: 767px)")) //Is this too much voodoo? Seems like there must be a better solution.
     },[detailsObject])
 
-    let detailsComponent
-
-    if(detailsObject.type === 'player')
-        detailsComponent = <PlayerDetails  detailsObject={detailsObject} />
-    else 
-        detailsComponent = <TeamDetails detailsObject={detailsObject} />
 
     return (
         <Card>
             {isSmallWindow.matches ? 
             
-            <Modal fullscreen backdrop={false} show={detailsObject !== undefined} onHide={()=>setDetailsObject(undefined)}>    
-                <Modal.Header closeButton><Modal.Title><span className='text-capitalize'>{detailsObject.type}</span> Details</Modal.Title> </Modal.Header>
-                {detailsComponent}
+            <Modal fullscreen backdrop={false} show={detailsObject !== undefined} onHide={()=>setDetails(undefined)}>    
+                <Modal.Header closeButton><Modal.Title><span className='text-capitalize'>Test Details</span></Modal.Title> </Modal.Header>
+                {children}
             </Modal> 
-            :  <> {detailsComponent} </>
+            :  <> {children} </>
             }
 
         </Card>

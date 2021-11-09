@@ -6,8 +6,8 @@ import {removePlayerFromTeam, selectActiveTeams } from '../../slices/teamsSlice'
 import PlayerList from '../Players/PlayerList'
 import PlayerListItem from '../Players/PlayerListItem'
 
-const TeamDetails = ({detailsObject}) => {
-    const {_id: teamId}  = detailsObject
+const TeamDetails = ({selectedTeam}) => {
+    const {_id: teamId}  = selectedTeam
     const {activeLeaguePlayers} = useSelector(selectActivePlayers)
     const {activeLeagueTeams} = useSelector(selectActiveTeams)
 
@@ -18,11 +18,11 @@ const TeamDetails = ({detailsObject}) => {
     })
     
     let womenPlayers = activeLeaguePlayers.filter(player => {
-        return player.team === teamId && roster.includes(player._id) && player.genderMatchup === 'female'
+        return player.team === teamId && roster.includes(player._id) && player.genderMatchup.toLowerCase() === 'female'
     })
 
     let menPlayers = activeLeaguePlayers.filter(player => {
-        return player.team === teamId && roster.includes(player._id) && player.genderMatchup === 'male'
+        return player.team === teamId && roster.includes(player._id) && player.genderMatchup.toLowerCase() === 'male'
     })
 
     const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const TeamDetails = ({detailsObject}) => {
                         {menPlayers.map(player=> {
                             return (
                                 <PlayerListItem key={player._id} player={player} action={false}>
-                                    <Button variant='danger' onClick={()=>removePlayerHandler(player.id, teamId)}>X</Button>
+                                    <Button variant='danger' onClick={()=>removePlayerHandler(player._id, teamId)}>X</Button>
                                 </PlayerListItem>
                             )
                         })}

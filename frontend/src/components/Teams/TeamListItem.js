@@ -3,7 +3,7 @@ import {Col, ListGroup, Row} from 'react-bootstrap'
 
 
 
-const TeamListItem = ({team, teamDetailsSelectHandler, active}) => {
+const TeamListItem = ({team, selectTeamHandler, active}) => {
     const {teamName, roster} = team
     // const [clickedInput, setClickedInput] = useState();
      
@@ -11,7 +11,7 @@ const TeamListItem = ({team, teamDetailsSelectHandler, active}) => {
 
     
      const selectHandler = () => {
-         teamDetailsSelectHandler(team)
+         selectTeamHandler(team._id)
      }
 
 
