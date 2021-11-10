@@ -44,6 +44,7 @@ const playersSlice = createSlice({
             const player = state.activeLeaguePlayers.find(player => player._id === action.payload._id)
             if(player){
                 player.team = action.payload.team
+                player.isCaptain = action.payload.isCaptain
             }
         })
         .addCase(addTeamIdToPlayer.fulfilled, (state,action) => { 
