@@ -75,7 +75,7 @@ const playerSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false,
-    }
+    },
 })
 
 playerSchema.methods.removeTeam = function(){
@@ -93,6 +93,7 @@ playerSchema.methods.toggleCaptain = function(){
     this.isCaptain = !this.isCaptain;
     return this.save()
 }
+
 
 
 const Player = mongoose.model('Player', playerSchema)

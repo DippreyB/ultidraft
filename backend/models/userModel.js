@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
-const userScehma = mongoose.Schema({
+const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -32,14 +32,24 @@ const userScehma = mongoose.Schema({
             ref: 'League'
         }
     ],
+    playerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Player'
+    }
 
 }, {
     timestamps: true
 })
 
-userScehma.methods.matchPassword = async function(enteredPassword){
+userSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password)
 }
-const User = mongoose.model('User', userScehma)
+
+userSchema.methods.addPlayerId = function(id){
+    this.playerId = id
+    return this.save()
+}
+
+const User = mongoose.model('User', userSchema)
 
 export default User
