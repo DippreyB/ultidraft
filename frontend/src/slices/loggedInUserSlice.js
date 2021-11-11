@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios'
+import axios from '../lib/axios'
 
 
 const loggedInUserFromStorage = localStorage.getItem('loggedInUser') ? JSON.parse(localStorage.getItem('loggedInUser')) : null
@@ -10,23 +10,15 @@ const initialState = {
 };
 
 export const logInGoogleUser = createAsyncThunk('loggedInUser/googleLogIn', async (userData) =>{
-    const config = {
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    }
-    const res = await axios.post('/api/users/googleLogin', userData, config)
+
+    const res = await axios.post('/api/users/googleLogin', userData)
+    console.log(res.data)
     return res.data
 })
 
 export const logInUser = createAsyncThunk('loggedInUser/login', async (data, {rejectWithValue}) =>{
     try{
-        const config = {
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }
-        const res = await axios.post('/api/users/login', data,  config)
+        const res = await axios.post('/api/users/login', data)
         return res.data
     }catch(error){
         return rejectWithValue(error.response.data.message)

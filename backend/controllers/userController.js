@@ -74,6 +74,7 @@ const getLoggedInUser = asyncHandler(async (req,res) =>{
             isAdmin: user.isAdmin,
             isCaptain: user.isCaptain,
             leagues: user.leagues,
+            playerId: user.playerId
         })
     } else {
         res.status(404)
@@ -219,6 +220,8 @@ const authGoogleUser = asyncHandler(async (req, res) => {
             isCaptain: user.isCaptain,
             leagues: user.leagues,
             token: generateToken(user._id),
+            playerId: user.playerId
+
         })
     }
 })

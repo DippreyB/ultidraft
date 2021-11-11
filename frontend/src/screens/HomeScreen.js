@@ -1,10 +1,13 @@
 import React, { useEffect} from 'react'
-import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
+import {  Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import LeagueList from '../components/Leagues/LeagueList'
 import { LoginCard } from '../components/Login/LoginCard'
 import { selectLoggedInUser } from '../slices/loggedInUserSlice'
 import { getActiveLeague, getAdminLeagues, getUserLeagues, selectLeagues } from '../slices/leaguesSlice'
+import {GiFrisbee} from 'react-icons/gi'
+import {BsFillPersonFill, BsFillPersonPlusFill} from 'react-icons/bs'
+import {IoSettings} from 'react-icons/io5'
+import {LinkContainer} from 'react-router-bootstrap'
 
 
 
@@ -17,7 +20,7 @@ const HomeScreen = ({history}) => {
 
     useEffect(()=>{
         dispatch(getUserLeagues())
-        if(loggedInUser.isAdmin) dispatch(getAdminLeagues())
+        if(loggedInUser && loggedInUser.isAdmin) dispatch(getAdminLeagues())
     }, [loggedInUser, dispatch])
 
     const leagueSelectHandler = (league) => {
@@ -41,22 +44,38 @@ const HomeScreen = ({history}) => {
                 {loggedInUser && 
                     <>  
                         <Col md={6} className='my-2'>
-                            <LeagueList />
                             <Card>
-                                <Card.Header><h2>{loggedInUser.name}</h2></Card.Header>
-                                <Card.Body>
+                                <Card.Header className='bg-primary'>
+                                    <h3 className='text-light'>Quick links:</h3>
+                                </Card.Header>
                                     <ListGroup variant='flush'>
-                                        
+                                    
                                             {userLeagues.map(league => { 
                                                 return (
-                                                <ListGroup.Item key={league.leagueName} action onClick={()=>leagueSelectHandler(league)}>
-                                                    {league.leagueName}
+                                                <ListGroup.Item className='text-link' key={league.leagueName} action onClick={()=>leagueSelectHandler(league)}>
+                                                    <h4><GiFrisbee className='text-primary'/>  {league.leagueName}</h4>
                                                 </ListGroup.Item>
                                                 )
                                             })}
-                                       
+                                            
+                                            {loggedInUser.playerId ?
+                                            <ListGroup.Item className='text-link' action >
+                                                <LinkContainer to='/profile'>
+                                                    <h4><BsFillPersonFill className='text-primary'/>  Player Profile</h4>
+                                                </LinkContainer>
+                                            </ListGroup.Item>
+                                            :
+                                            <ListGroup.Item className='text-link' action >
+                                                <LinkContainer > {/* Add link to make profile screen*/}
+                                                    <h4><BsFillPersonPlusFill className='text-primary'/>  Make Player Profile</h4>
+                                                </LinkContainer>
+                                            </ListGroup.Item>
+                                            }
+                                            
+                                            <ListGroup.Item className='text-link' action >
+                                                    <h4><IoSettings className='text-primary' />  Account Settings</h4>
+                                            </ListGroup.Item>
                                     </ListGroup>
-                                </Card.Body>
                             </Card>
 
                         </Col>
