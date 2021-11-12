@@ -10,13 +10,14 @@ const TeamListItem = ({team, selectTeamHandler, active}) => {
     
 
     
-     const selectHandler = () => {
+     const selectHandler = (e) => {
+         e.preventDefault()
          selectTeamHandler(team._id)
      }
 
 
     return (
-        <ListGroup.Item active={active} action onClick={()=>selectHandler()}>
+        <ListGroup.Item active={active} action onClick={(e)=>selectHandler(e)}>
             <Row>
                 <Col><strong>{teamName}</strong></Col> 
             </Row>

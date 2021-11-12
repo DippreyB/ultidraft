@@ -8,7 +8,7 @@ const PlayerList = ({players, selectPlayerHandler, action, selectedPlayer}) => {
 
     //todo - refactor into usePagination
     const [currentPageNum, setPageNum] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const itemsPerPage = 10;
     const [filteredPlayers, setFilteredPlayers] = useState(players)
     
     const increasePageHandler = () =>{

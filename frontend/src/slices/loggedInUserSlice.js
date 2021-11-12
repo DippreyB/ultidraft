@@ -16,7 +16,6 @@ export const logInGoogleUser = createAsyncThunk('loggedInUser/googleLogIn', asyn
         }
     }
     const res = await axios.post('/api/users/googleLogin', userData, config)
-    console.log(res.data)
     return res.data
 })
 

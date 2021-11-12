@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,  } from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { addPlayerToTeam, removePlayerFromTeam } from '../../slices/teamsSlice'
@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 const PlayerTeamSelect = ({player, teams}) => {
     
     const [selectedOption,setSelectedOption] = useState()
-    const [addPlayerResult, setAddPlayerResult] = useState()
+    //const [addPlayerResult, setAddPlayerResult] = useState()
     const dispatch = useDispatch()
 
     const onSubmitHandler = async () => {
@@ -17,8 +17,8 @@ const PlayerTeamSelect = ({player, teams}) => {
             if(teamId){
                 await dispatch(removePlayerFromTeam({playerId,teamId}))
             }
-            const result = await dispatch(addPlayerToTeam({playerId, teamId:selectedOption}))
-            setAddPlayerResult(result)
+            await dispatch(addPlayerToTeam({playerId, teamId:selectedOption}))
+            //setAddPlayerResult(result)
             toast.success('Player added to team.')
         }
         else{

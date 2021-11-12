@@ -13,7 +13,6 @@ import {LinkContainer} from 'react-router-bootstrap'
 
 const HomeScreen = ({history}) => {
     const {loggedInUser} = useSelector(selectLoggedInUser)
-    const {adminLeagues} = useSelector(selectLeagues)
     const {userLeagues} = useSelector(selectLeagues)
 
     const dispatch = useDispatch()

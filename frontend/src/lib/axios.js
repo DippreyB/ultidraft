@@ -12,8 +12,6 @@ const authRequestInterceptor = (config) => {
         }
         config.headers = newConfig.headers
     }
-
-
     return config
 }
 
