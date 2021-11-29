@@ -65,7 +65,7 @@ const HomeScreen = ({history}) => {
                                             </ListGroup.Item>
                                             :
                                             <ListGroup.Item className='text-link' action >
-                                                <LinkContainer > {/* Add link to make profile screen*/}
+                                                <LinkContainer to='/' > 
                                                     <h4><BsFillPersonPlusFill className='text-primary'/>  Make Player Profile</h4>
                                                 </LinkContainer>
                                             </ListGroup.Item>

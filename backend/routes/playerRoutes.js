@@ -18,7 +18,7 @@ router.route('/:id/captain')
 
 router.route('/:id')
     .get(protect, getPlayerById)
-    .put(protect,admin,updatePlayer)
+    .put(protect,updatePlayer)
     .delete(protect,admin,deletePlayer)
 
 

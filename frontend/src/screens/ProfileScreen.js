@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectLoggedInUser } from '../slices/loggedInUserSlice'
-import {Card, Col, Container, ListGroup, Row, Form} from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap'
 import axios from '../lib/axios'
 import OverviewCard from '../components/Profile/OverviewCard'
 import RatingCard from '../components/Profile/RatingCard'
 import LeaguesCard from '../components/Profile/LeaguesCard'
-//TODO - refactor into components for each card, ListGroup.Items, etc
-const ProfileScreen = () => {
+
+const ProfileScreen = ({match}) => {
     const {loggedInUser} = useSelector(selectLoggedInUser)
     const [playerProfile, setPlayerProfile] = useState()
 
     useEffect(()=> {
-        if(loggedInUser){
+        if(match.params.id && loggedInUser.isAdmin){
+            const getPlayerProfile = async () => {
+                const playerData = await axios.get(`/api/players/${match.params.id}`)
+                console.log(playerData)
+                setPlayerProfile(playerData.data)
+            }
+            getPlayerProfile()
+        }
+        else if(loggedInUser){
             const getPlayerProfile = async () => {
                 const playerData = await axios.get(`/api/players/${loggedInUser.playerId}`)
                 setPlayerProfile(playerData.data)

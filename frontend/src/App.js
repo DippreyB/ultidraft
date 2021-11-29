@@ -15,7 +15,8 @@ function App() {
         <Container>
           <Route path='/' component={HomeScreen} exact/>
           <Route path='/dashboard' component={Dashboard} />
-          <Route path='/profile' component={ProfileScreen} />
+          <Route path='/profile' component={ProfileScreen} exact />
+          <Route path='/profile/:id' component={ProfileScreen} /> 
         </Container>
       </main>
       <Footer/>

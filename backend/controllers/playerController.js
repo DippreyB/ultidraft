@@ -81,7 +81,12 @@ const createPlayer = asyncHandler(async (req, res) =>{
 //access    private/admin
 const updatePlayer = asyncHandler(async (req,res) => {
     const player = await Player.findById(req.params.id)
-    if(player){
+    const user = req.user
+    if(user && !user.isAdmin && user.playerId.toString() !== req.params.id){
+        res.status(401)
+        throw new Error('Unauthorized Access, unable to update player profile.')
+    }
+    else if(player){
         player.playerName = req.body.playerName || player.playerName
         player.email = req.body.email || player.email
         player.age = req.body.age || player.age
@@ -101,7 +106,7 @@ const updatePlayer = asyncHandler(async (req,res) => {
         player.team = req.body.team || player.team
 
         const updatedPlayer = await player.save()
-        res.json(player)
+        res.json(updatedPlayer)
     }else {
         res.status(404)
         throw new Error('Unable to update user - not found.')
