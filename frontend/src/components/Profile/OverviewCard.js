@@ -36,21 +36,21 @@ const OverviewCard = ({playerProfile}) => {
     console.log(formState)
 
     return (
-        <Card>
+        <Card className='border-0'>
             <Card.Header className='display-6 bg-primary text-light d-flex justify-content-between'>
                 Overview 
-                <Button onClick={editableHandler}>Edit</Button>
+                {!editable ? <Button onClick={editableHandler}>Edit</Button> : <Button variant='outline-danger' onClick={editableHandler}>Cancel </Button> }
             </Card.Header>
-            <Card.Body>
+            
                 {!editable ?
                 <ListGroup variant='flush'>
-                    <ListGroup.Item>
+                    <ListGroup.Item className='border-0 display-6' >
                         {player.playerName}, {player.age}{player.genderMatchup.charAt(0)}
                     </ListGroup.Item>
-                    <ListGroup.Item className='text-capitalize'>
+                    <ListGroup.Item className='text-capitalize' className='border-0'>
                         <div className='text-muted'>Experience </div>{player.experience} {player.role}
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item className='border-0'>
                     <div className='text-muted'>Comments </div>
                         "{player.comments}"
                     </ListGroup.Item>
@@ -98,11 +98,12 @@ const OverviewCard = ({playerProfile}) => {
                         </FloatingLabel>
                         
                     </Form.Group>
-
-                    <Button className='d-grid gap-2' type='submit'>Save</Button>
+                    <div className='d-grid gap-2'>
+                        <Button type='submit'>Save</Button>
+                    </div>
                 </Form>
                 }
-            </Card.Body>
+            
         </Card>
     )
 }
