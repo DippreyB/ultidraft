@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-    res.send('API RUNNING THIS SHIT')
+    res.send('API RUNNING')
 })
 
 app.use('/api/users', userRoutes)
